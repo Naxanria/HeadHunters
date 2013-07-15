@@ -20,13 +20,13 @@ public class PlayerTeleport implements IPlayerTeleportEvent
 		RunsafePlayer player = event.getPlayer();
 
 		if (playerHandler.isIngame(player))
+		{
 			if (!areaHandler.isInCurrentCombatRegion(event.getTo()))
 			{
 				System.out.println("Not in region! " + areaHandler.isInCurrentCombatRegion(player.getLocation()));
-
 				playerHandler.remove(player);
 			}
-
+		}
 	}
 
 	private final PlayerHandler playerHandler;
