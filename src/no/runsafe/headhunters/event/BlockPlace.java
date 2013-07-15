@@ -19,8 +19,6 @@ public class BlockPlace implements IBlockPlace
 	@Override
 	public boolean OnBlockPlace(RunsafePlayer eventPlayer, RunsafeBlock block)
 	{
-
-
 		if (eventPlayer.getWorld().getName().equalsIgnoreCase(playerHandler.getWorldName()))
 		{
 			if (areaHandler.isInCombatRegion(eventPlayer.getLocation()))
