@@ -15,7 +15,6 @@ public class RandomItem
 
 	public RandomItem()
 	{
-
 		itemMap = new HashMap<RunsafeMeta, Integer>();
 		items = new ArrayList<RunsafeMeta>();
 
@@ -80,8 +79,6 @@ public class RandomItem
 
 	public ArrayList<RunsafeMeta> getCleanedDrops(List<RunsafeMeta> drops)
 	{
-
-
 		ArrayList<RunsafeMeta> outList = new ArrayList<RunsafeMeta>();
 
 		for (RunsafeMeta item : drops)
@@ -89,6 +86,5 @@ public class RandomItem
 				outList.add(item);
 
 		return outList;
-
 	}
 }
