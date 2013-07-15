@@ -2,6 +2,7 @@ package no.runsafe.headhunters;
 
 import no.runsafe.framework.minecraft.RunsafeLocation;
 import no.runsafe.framework.minecraft.RunsafeServer;
+import no.runsafe.framework.minecraft.RunsafeWorld;
 import no.runsafe.framework.minecraft.entity.RunsafeEntity;
 import no.runsafe.framework.minecraft.player.RunsafePlayer;
 import org.apache.commons.lang.StringUtils;
@@ -18,6 +19,7 @@ public class AreaHandler
 		areas = new HashMap<Integer, SimpleArea>();
 		currentArea = 0;
 		nextArea = 0;
+		this.setWorld("world");
 	}
 
 	public void loadAreas(List<String> areaList)
@@ -28,7 +30,7 @@ public class AreaHandler
 
         for (String area : areaList)
         {
-            SimpleArea simpleArea = new SimpleArea(RunsafeServer.Instance.getWorld(world), area);
+            SimpleArea simpleArea = new SimpleArea(world, area);
             areas.put(index, simpleArea);
             index++;
         }
@@ -86,12 +88,12 @@ public class AreaHandler
 
 	public void setWorld(String world)
 	{
-		this.world = world;
+		this.world = RunsafeServer.Instance.getWorld(world);
 	}
 
 	public String getWorld()
 	{
-		return world;
+		return this.world.getName();
 	}
 
 	public int getAmountLoadedAreas()
@@ -143,7 +145,7 @@ public class AreaHandler
 
     public void setWaitRoom(String region)
     {
-        waitRoom = new SimpleArea(RunsafeServer.Instance.getWorld(world), region);
+        waitRoom = new SimpleArea(world, region);
     }
 
     public SimpleArea getWaitRoom()
@@ -179,7 +181,7 @@ public class AreaHandler
 	private String availableRegions;
 	private int currentArea;
 	private int nextArea;
-	private String world = "world";
+	private RunsafeWorld world;
     private SimpleArea waitRoom;
 	private ArrayList<String> areasList;
     private RunsafeLocation waitroomSpawn;
