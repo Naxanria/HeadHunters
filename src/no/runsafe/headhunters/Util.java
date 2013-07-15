@@ -79,9 +79,9 @@ public class Util
 	public static boolean arrayListContainsIgnoreCase(ArrayList<String> arrayList, String check)
 	{
 		for (String toCheck : arrayList)
-		{
-			if (toCheck.equalsIgnoreCase(check)) return true;
-		}
+			if (toCheck.equalsIgnoreCase(check))
+				return true;
+
 		return false;
 	}
 
