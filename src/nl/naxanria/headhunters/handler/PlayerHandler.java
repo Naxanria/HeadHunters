@@ -130,11 +130,11 @@ public class PlayerHandler
 		winner = false;
 	}
 
-    public void resetScoreboard()
+  public void resetScoreboard()
     {
         for(String playerName : playerData.keySet())
             scoreboardHandler.removeScoreBoard(RunsafeServer.Instance.getPlayerExact(playerName));
-    }
+  }
 
 	public ArrayList<String> tick()
 	{
@@ -152,7 +152,7 @@ public class PlayerHandler
 					currLeader = player;
 					currLAmount = amount;
 				}
-                scoreboardHandler.updateScoreboard(player, amount);
+        scoreboardHandler.updateScoreboard(player, amount);
 				player.setSaturation(10f);
 				if (!player.getWorld().getName().equalsIgnoreCase(getWorldName()))
 				{
@@ -225,7 +225,7 @@ public class PlayerHandler
 	//private final HashMap<String, HashMap<String, Object>> playerData;
 	private final HashMap<String, Boolean> playerData;
 	private final int leaderAmount = -1;
-    private final ScoreboardHandler scoreboardHandler;
+  private final ScoreboardHandler scoreboardHandler;
 	private final EquipmentManager equipmentManager;
 	Boolean winner = false;
 	private RunsafePlayer leader;

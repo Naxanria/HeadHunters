@@ -2,6 +2,7 @@ package nl.naxanria.headhunters;
 
 import nl.naxanria.headhunters.command.*;
 import nl.naxanria.headhunters.database.AreaRepository;
+import nl.naxanria.headhunters.database.EquipmentRepository;
 import nl.naxanria.headhunters.database.WaitRoomRepository;
 import nl.naxanria.headhunters.event.*;
 import nl.naxanria.headhunters.handler.*;
@@ -20,6 +21,7 @@ public class Plugin extends RunsafeConfigurablePlugin
 		//database
 		this.addComponent(AreaRepository.class);
 		this.addComponent(WaitRoomRepository.class);
+		this.addComponent(EquipmentRepository.class);
 
 		//handlers and managers
         this.addComponent(ScoreboardHandler.class);
@@ -50,6 +52,7 @@ public class Plugin extends RunsafeConfigurablePlugin
 		command.addSubCommand(this.getInstance(CommandForceSkip.class));
 		command.addSubCommand(this.getInstance(CommandConfig.class));
 		command.addSubCommand(this.getInstance(CommandSetWaitroom.class));
+		command.addSubCommand(this.getInstance(CommandSetEquipment.class));
 
 		this.addComponent(command);
 
