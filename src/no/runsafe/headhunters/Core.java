@@ -397,9 +397,8 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 	public void OnPluginEnabled()
 	{
         console.fine("enabling sequence");
-        if(this.enabled)
-            if(!enable())
-                disable();
+        if(this.enabled && !enable())
+			this.disable();
 
 		console.writeColoured((enabled) ? ConsoleColour.GREEN + "Enabled" : ConsoleColour.RED + "Disabled");
 		console.write(String.format("loaded %d areas", areaHandler.getAmountLoadedAreas()));
