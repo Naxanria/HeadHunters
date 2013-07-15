@@ -12,12 +12,10 @@ import java.util.List;
 
 public class WaitRoomRepository extends Repository
 {
-
     public WaitRoomRepository(IDatabase database, IOutput console)
     {
         this.database = database;
         this.console = console;
-
     }
 
     @Override
@@ -44,8 +42,10 @@ public class WaitRoomRepository extends Repository
     {
         String query = "SELECT * FROM headhunters_waitroom";
         IRow row = database.QueryRow(query);
-        if(row == null || row == Set.Empty) return null;
-        else return row.String("AREANAME");
+        if(row == null || row == Set.Empty)
+			return null;
+
+		return row.String("AREANAME");
     }
 
     private void delWaitRoom()
@@ -60,7 +60,6 @@ public class WaitRoomRepository extends Repository
         delWaitRoom();
         database.Update(query);
     }
-
 
     private final IDatabase database;
     private final IOutput console;
