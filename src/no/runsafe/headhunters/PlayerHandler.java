@@ -14,7 +14,6 @@ public class PlayerHandler
 {
 	public PlayerHandler(EquipmentManager manager, AreaHandler areaHandler)
 	{
-
 		playerData = new HashMap<String, HashMap<String, Object>>();
 		this.equipmentManager = manager;
 		this.areaHandler = areaHandler;
