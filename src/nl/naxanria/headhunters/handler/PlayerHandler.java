@@ -2,11 +2,10 @@ package nl.naxanria.headhunters.handler;
 
 import nl.naxanria.headhunters.Constants;
 import nl.naxanria.headhunters.Util;
-import nl.naxanria.headhunters.handler.AreaHandler;
-import nl.naxanria.headhunters.handler.EquipmentManager;
 import no.runsafe.framework.minecraft.Buff;
 import no.runsafe.framework.minecraft.Item;
 import no.runsafe.framework.minecraft.RunsafeLocation;
+import no.runsafe.framework.minecraft.RunsafeServer;
 import no.runsafe.framework.minecraft.item.meta.RunsafeMeta;
 import no.runsafe.framework.minecraft.player.RunsafePlayer;
 import org.bukkit.GameMode;
@@ -18,7 +17,8 @@ public class PlayerHandler
 {
 	public PlayerHandler(EquipmentManager manager, AreaHandler areaHandler, ScoreboardHandler scoreboardHandler)
 	{
-		playerData = new HashMap<String, HashMap<String, Object>>();
+		//playerData = new HashMap<String, HashMap<String, Object>>();
+		playerData = new HashMap<String, Boolean>();
 		this.equipmentManager = manager;
 		this.areaHandler = areaHandler;
         this.scoreboardHandler = scoreboardHandler;
@@ -43,9 +43,7 @@ public class PlayerHandler
 	{
 		if (isIngame(player))
 		{
-
-			playerData.get(player.getName()).put("remove", true);
-
+			playerData.put(player.getName(), true);
             scoreboardHandler.removeScoreBoard(player);
 
 			unEquip(player);
@@ -68,20 +66,14 @@ public class PlayerHandler
 
 	public boolean isIngame(RunsafePlayer player)
 	{
-		return
-			areaHandler.isInGameWorld(player)
-				&& playerData.containsKey(player.getName())
-				&& !((Boolean) playerData.get(player.getName()).get("remove"));
+		String playerName = player.getName();
+		return areaHandler.isInGameWorld(player) && playerData.containsKey(playerName) && !playerData.get(playerName);
 	}
 
 
 	public void addPlayer(RunsafePlayer player)
 	{
-		HashMap<String, Object> data = new HashMap<String, Object>();
-		data.put("remove", false);
-		data.put("player", player);
-
-		playerData.put(player.getName(), data);
+		playerData.put(player.getName(), false);
         scoreboardHandler.addScoreboard(player);
 	}
 
@@ -92,23 +84,16 @@ public class PlayerHandler
 
 	public void teleportAllPlayers(RunsafeLocation location)
 	{
-		for (String k : playerData.keySet())
-		{
-			if (!(Boolean) playerData.get(k).get("remove"))
-				((RunsafePlayer) playerData.get(k).get("player")).teleport(location);
-		}
+		for (String playerName : playerData.keySet())
+			if (!playerData.get(playerName))
+				RunsafeServer.Instance.getPlayerExact(playerName).teleport(location);
 	}
 
 	public void teleport()
 	{
-		for (String k : playerData.keySet())
-		{
-			if (!(Boolean) playerData.get(k).get("remove"))
-			{
-				RunsafePlayer player = ((RunsafePlayer) playerData.get(k).get("player"));
-				player.teleport(areaHandler.getSafeLocation());
-			}
-		}
+		for (String playerName : playerData.keySet())
+			if (!this.playerData.get(playerName))
+				RunsafeServer.Instance.getPlayerExact(playerName).teleport(areaHandler.getSafeLocation());
 	}
 
 	public void start(ArrayList<RunsafePlayer> players)
@@ -122,7 +107,8 @@ public class PlayerHandler
 
 	public void setUpPlayers()
 	{
-		for (String k : playerData.keySet()) setUpPlayer((RunsafePlayer) playerData.get(k).get("player"));
+		for (String playerName : playerData.keySet())
+			this.setUpPlayer(RunsafeServer.Instance.getPlayerExact(playerName));
 	}
 
 	public void setUpPlayer(RunsafePlayer player)
@@ -146,8 +132,8 @@ public class PlayerHandler
 
     public void resetScoreboard()
     {
-        for(String k : playerData.keySet())
-            scoreboardHandler.removeScoreBoard((RunsafePlayer) playerData.get(k).get("player"));
+        for(String playerName : playerData.keySet())
+            scoreboardHandler.removeScoreBoard(RunsafeServer.Instance.getPlayerExact(playerName));
     }
 
 	public ArrayList<String> tick()
@@ -155,11 +141,11 @@ public class PlayerHandler
 		ArrayList<String> out = new ArrayList<String>();
 		int currLAmount = 0;
 		RunsafePlayer currLeader = null;
-		for (String k : playerData.keySet())
+		for (String playerName : playerData.keySet())
 		{
-			if (!(Boolean) playerData.get(k).get("remove"))
+			if (!this.playerData.get(playerName))
 			{
-				RunsafePlayer player = (RunsafePlayer) playerData.get(k).get("player");
+				RunsafePlayer player = RunsafeServer.Instance.getPlayerExact(playerName);
 				int amount = Util.amountMaterial(player, Item.Decoration.Head.Human.getItem());
 				if (amount != 0 && amount > leaderAmount && amount > currLAmount)
 				{
@@ -192,7 +178,8 @@ public class PlayerHandler
 
 	public void unEquipAll()
 	{
-		for (String k : playerData.keySet()) this.unEquip((RunsafePlayer) playerData.get(k).get("player"));
+		for (String playerName : playerData.keySet())
+			this.unEquip(RunsafeServer.Instance.getPlayerExact(playerName));
 	}
 
 	public void unEquip(RunsafePlayer player)
@@ -216,27 +203,27 @@ public class PlayerHandler
 	public ArrayList<RunsafePlayer> getIngamePlayers()
 	{
 		ArrayList<RunsafePlayer> players = new ArrayList<RunsafePlayer>();
-		for (String k : playerData.keySet())
-			if (!(Boolean) playerData.get(k).get("remove"))
-				players.add((RunsafePlayer) playerData.get(k).get("player"));
+		for (String playerName : playerData.keySet())
+			if (!this.playerData.get(playerName))
+				players.add(RunsafeServer.Instance.getPlayerExact(playerName));
 		return players;
 	}
 
 	public ArrayList<RunsafePlayer> getIngamePlayers(RunsafeLocation location, int range)
 	{
 		ArrayList<RunsafePlayer> players = new ArrayList<RunsafePlayer>();
-		for (String k : playerData.keySet())
+		for (String playerName : playerData.keySet())
         {
-            RunsafePlayer player = (RunsafePlayer) playerData.get(k).get("player");
-			if (!(Boolean) playerData.get(k).get("remove") &&
-				location.distance(player.getLocation()) < range)
+            RunsafePlayer player = RunsafeServer.Instance.getPlayerExact(playerName);
+			if (!this.playerData.get(playerName) && location.distance(player.getLocation()) < range)
 				players.add(player);
         }
 		return players;
 	}
 
 	private final AreaHandler areaHandler;
-	private final HashMap<String, HashMap<String, Object>> playerData;
+	//private final HashMap<String, HashMap<String, Object>> playerData;
+	private final HashMap<String, Boolean> playerData;
 	private final int leaderAmount = -1;
     private final ScoreboardHandler scoreboardHandler;
 	private final EquipmentManager equipmentManager;
