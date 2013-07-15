@@ -19,11 +19,8 @@ public class DamagePlayer implements IPlayerDamageEvent
 	public void OnPlayerDamage(RunsafePlayer player, RunsafeEntityDamageEvent event)
 	{
 		if (player.getWorld().getName().equalsIgnoreCase(areaHandler.getWorld()) && playerHandler.isIngame(player))
-		{
-
 			player.getWorld().playEffect(player.getLocation(), Effect.getById(2001), 152);
 
-		}
 	}
 
 	private final AreaHandler areaHandler;
