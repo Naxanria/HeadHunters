@@ -2,16 +2,17 @@ package no.runsafe.headhunters.event;
 
 import no.runsafe.framework.api.event.player.IPlayerRightClick;
 import no.runsafe.framework.minecraft.Buff;
+import no.runsafe.framework.minecraft.Item;
 import no.runsafe.framework.minecraft.RunsafeLocation;
 import no.runsafe.framework.minecraft.RunsafeServer;
 import no.runsafe.framework.minecraft.block.RunsafeBlock;
+import no.runsafe.framework.minecraft.entity.ProjectileEntity;
 import no.runsafe.framework.minecraft.item.meta.RunsafeMeta;
 import no.runsafe.framework.minecraft.player.RunsafePlayer;
 import no.runsafe.headhunters.AreaHandler;
 import no.runsafe.headhunters.PlayerHandler;
 import no.runsafe.headhunters.Util;
 import org.bukkit.Effect;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 
 import java.util.ArrayList;
@@ -39,8 +40,7 @@ public class PlayerRightClick implements IPlayerRightClick
 			{
 				RunsafeLocation location = (targetBlock != null) ? targetBlock.getLocation() : player.getLocation();
 
-				int itemID = usingItem.getItemId();
-				if (itemID == Material.SLIME_BALL.getId())
+				if (usingItem.is(Item.Miscellaneous.Slimeball))
 				{
 					//visual effect...
 					server.getWorld(playerHandler.getWorldName()).playEffect(location, Effect.POTION_BREAK, 16426);
@@ -56,7 +56,7 @@ public class PlayerRightClick implements IPlayerRightClick
 					}
 					used = true;
 				}
-				else if (itemID == Material.MAGMA_CREAM.getId())
+				else if (usingItem.is(Item.Brewing.MagmaCream))
 				{
 					ArrayList<RunsafePlayer> hitPlayers = playerHandler.getIngamePlayers(location, range);
 					for (RunsafePlayer hitPlayer : hitPlayers)
@@ -70,7 +70,7 @@ public class PlayerRightClick implements IPlayerRightClick
 					}
 					used = true;
 				}
-				else if (itemID == Material.NETHER_STAR.getId())
+				else if (usingItem.is(Item.Materials.NetherStar))
 				{
 					used = true;
 
@@ -87,13 +87,13 @@ public class PlayerRightClick implements IPlayerRightClick
 						server.getWorld(playerHandler.getWorldName()).createExplosion(player.getLocation(), 2f, false, false);
 					}
 				}
-				else if (itemID == Material.BLAZE_ROD.getId())
+				else if (usingItem.is(Item.Materials.BlazeRod))
 				{
-					player.Launch(Material.FIREBALL.name());
+					player.Launch(ProjectileEntity.Fireball);
 					RunsafeServer.Instance.getWorld(playerHandler.getWorldName()).getRaw().playSound(player.getLocation().getRaw(), Sound.GHAST_FIREBALL, 1f, 1f);
 					used = true;
 				}
-				else if (itemID == Material.INK_SACK.getId())
+				else if (usingItem.is(Item.Materials.InkSack))
 				{
 					ArrayList<RunsafePlayer> hitPlayers = playerHandler.getIngamePlayers(location, range);
 					for (RunsafePlayer hitPlayer : hitPlayers)
@@ -106,7 +106,7 @@ public class PlayerRightClick implements IPlayerRightClick
 					}
 					used = true;
 				}
-				else if (itemID == Material.GHAST_TEAR.getId())
+				else if (usingItem.is(Item.Brewing.GhastTear))
 				{
 					playerHandler.teleportAllPlayers(player.getLocation());
 					player.teleport(areaHandler.getSafeLocation());
