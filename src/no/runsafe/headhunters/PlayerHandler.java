@@ -214,7 +214,8 @@ public class PlayerHandler
 		for (String k : playerData.keySet())
 			if (!(Boolean) playerData.get(k).get("remove") &&
 				Util.distance(location, ((RunsafePlayer) playerData.get(k).get("player")).getLocation()) < range)
-				players.add((RunsafePlayer) playerData.get(k).get("player"));
+
+		players.add((RunsafePlayer) playerData.get(k).get("player"));
 		return players;
 	}
 
