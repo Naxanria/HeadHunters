@@ -12,15 +12,12 @@ import java.util.List;
 
 public class AreaHandler
 {
-
-
     public AreaHandler()
 	{
 		areas = new HashMap<Integer, SimpleArea>();
 		currentArea = 0;
 		nextArea = 0;
 		availableRegions = new StringBuilder();
-
 	}
 
 	public void loadAreas(List<String> areaList)
@@ -33,7 +30,6 @@ public class AreaHandler
 
         for (String area : areaList)
         {
-
             SimpleArea simpleArea = new SimpleArea(RunsafeServer.Instance.getWorld(world), area);
             areas.put(index, simpleArea);
             if (!first) availableRegions.append(",");
@@ -41,9 +37,6 @@ public class AreaHandler
             availableRegions.append(simpleArea.getRegionName());
             index++;
         }
-
-
-
 	}
 
 	public int getCurrentArea()
@@ -95,7 +88,6 @@ public class AreaHandler
 	{
 		return areas.get(currentArea).safeLocation();
 	}
-
 
 	public void setWorld(String world)
 	{
@@ -152,7 +144,6 @@ public class AreaHandler
 			for (RunsafeEntity entity : entities) //lets not delete players...
 				if (!(entity instanceof RunsafePlayer) && areas.get(currentArea).pointInArea(entity.getLocation()))
 					entity.remove();
-
 	}
 
     public void setWaitRoom(String region)
@@ -196,7 +187,4 @@ public class AreaHandler
     private SimpleArea waitRoom;
 	private ArrayList<String> __areas__;
     private RunsafeLocation waitroomSpawn;
-
-
-
 }
