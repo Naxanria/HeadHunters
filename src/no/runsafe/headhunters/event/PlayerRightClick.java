@@ -59,12 +59,14 @@ public class PlayerRightClick implements IPlayerRightClick
 				{
 					ArrayList<RunsafePlayer> hitPlayers = playerHandler.getIngamePlayers(location, range);
 					for (RunsafePlayer hitPlayer : hitPlayers)
+					{
 						if (!hitPlayer.getName().equalsIgnoreCase(player.getName()))
 						{
 							hitPlayer.strikeWithLightning(true);
 							hitPlayer.setHealth(Math.max(hitPlayer.getHealth() - 4, 0));
 							hitPlayer.setFireTicks(90);
 						}
+					}
 					used = true;
 				}
 				else if (itemID == Material.NETHER_STAR.getId())
