@@ -20,23 +20,10 @@ public class BlockPlace implements IBlockPlace
 	public boolean OnBlockPlace(RunsafePlayer eventPlayer, RunsafeBlock block)
 	{
 		if (eventPlayer.getWorld().getName().equalsIgnoreCase(playerHandler.getWorldName()))
-		{
 			if (areaHandler.isInCombatRegion(eventPlayer.getLocation()))
-			{
-
-				if (core.isEnabled())
-				{
+				if (core.isEnabled() || !eventPlayer.hasPermission("headhunters.build"))
 					return false;
-				}
-				else
-				{
-					if (!eventPlayer.hasPermission("headhunters.build"))
-					{
-						return false;
-					}
-				}
-			}
-		}
+
 		return true;
 
 	}
