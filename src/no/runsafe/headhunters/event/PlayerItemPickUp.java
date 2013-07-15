@@ -21,7 +21,6 @@ public class PlayerItemPickUp implements IPlayerPickupItemEvent
 	@Override
 	public void OnPlayerPickupItemEvent(RunsafePlayerPickupItemEvent event)
 	{
-
 		RunsafePlayer player = event.getPlayer();
 		RunsafeItem item = event.getItem();
 		int itemID = item.getItemStack().getItemId();
@@ -32,7 +31,6 @@ public class PlayerItemPickUp implements IPlayerPickupItemEvent
 			boolean used = false;
 			if (itemID == Material.GOLDEN_APPLE.getId())
 			{
-
 				Buff.Healing.Regeneration.amplification(2).duration(6).applyTo(player);
 				used = true;
 			}
@@ -47,8 +45,6 @@ public class PlayerItemPickUp implements IPlayerPickupItemEvent
 				event.setCancelled(true);
 			}
 		}
-
-
 	}
 
 	private final IOutput console;
