@@ -68,19 +68,14 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 	{
         console.fine("enabling");
         this.enabled = true;
-        if(loadAreas() != 0) return false;
-		if (areaHandler.getAmountLoadedAreas() == 0)
-		{
+		if (loadAreas() != 0 || areaHandler.getAmountLoadedAreas() == 0)
 			return false;
-		}
-		else
-		{
-			this.config.setConfigValue("enabled", true);
-			this.config.save();
 
-			end();
-			return true;
-		}
+		this.config.setConfigValue("enabled", true);
+		this.config.save();
+
+		this.end();
+		return true;
 	}
 
     private int loadAreas()
