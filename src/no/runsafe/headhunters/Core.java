@@ -80,7 +80,6 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 
     private int loadAreas()
     {
-
         console.fine("loading areas");
         ArrayList<String> areas = areaRepository.getAreas();
         String waitroom = waitRoomRepository.getWaitRoom();
@@ -108,8 +107,6 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 		this.config.setConfigValue("enabled", false);
 		this.config.save();
 		this.enabled = false;
-
-
 	}
 
 	public boolean getGamestarted()
@@ -145,7 +142,6 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 
 			return Constants.MSG_COLOR + "Game will start in " + ChatColour.WHITE + time + Constants.MSG_COLOR + " seconds";
 		}
-
 		return "Game already started";
 	}
 
@@ -183,13 +179,11 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 		List<RunsafeEntity> entities = server.getWorld(worldName).getEntities();
 		areaHandler.removeEntities(entities);
 
-
 		areaHandler.randomNextArea();
 		gamestarted = false;
 
 		resetWaittime();
 		resetRuntime();
-
 	}
 
 	@Override
@@ -345,11 +339,8 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 				this.countdownToEnd--;
 				if (countdownToEnd <= 0)
 				{
-
 					winner();
-
 					return;
-
 				}
 
 				// checking all players in world that are not creative mode, move them to the waiting room if not in game
@@ -374,7 +365,6 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 	{
 		if (this.enabled)
 		{
-
 			if (!playerHandler.isIngame(executor))
 			{
 				executor.teleport(areaHandler.getWaitRoomSpawn());
@@ -386,7 +376,6 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 				return Constants.ERROR_COLOR + "You are already in game!";
 			}
 		}
-
 		return Constants.MSG_COLOR + "headhunters is not enabled";
 	}
 
