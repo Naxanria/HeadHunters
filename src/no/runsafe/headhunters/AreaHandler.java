@@ -22,7 +22,7 @@ public class AreaHandler
 
 	public void loadAreas(List<String> areaList)
 	{
-		__areas__ = (ArrayList<String>) areaList;
+		areasList = (ArrayList<String>) areaList;
 		areas.clear();
 		int index = 0;
 		boolean first = true;
@@ -136,7 +136,7 @@ public class AreaHandler
 
 	public ArrayList<String> get__areas__()
 	{
-		return __areas__;
+		return areasList;
 	}
 
 	public void removeEntities(List<RunsafeEntity> entities)
@@ -187,6 +187,6 @@ public class AreaHandler
 	private int nextArea;
 	private String world = "world";
     private SimpleArea waitRoom;
-	private ArrayList<String> __areas__;
+	private ArrayList<String> areasList;
     private RunsafeLocation waitroomSpawn;
 }
