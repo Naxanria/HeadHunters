@@ -65,7 +65,7 @@ public class Util
 	{
 		int amount = 0;
 		for (RunsafeMeta content : player.getInventory().getContents())
-			if (content.getItemId() == search.getItemId()) amount += content.getAmount();
+			if (content.is(search.getItemType())) amount += content.getAmount();
 		return amount;
 	}
 
