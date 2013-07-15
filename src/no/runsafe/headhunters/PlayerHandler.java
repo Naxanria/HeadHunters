@@ -73,16 +73,15 @@ public class PlayerHandler
 
 	public void addPlayers(ArrayList<RunsafePlayer> players)
 	{
-		for (RunsafePlayer player : players) addPlayer(player);
+		for (RunsafePlayer player : players)
+			addPlayer(player);
 	}
 
 	public void teleportAllPlayers(RunsafeLocation location)
 	{
 		for (String k : playerData.keySet())
-		{
 			if (!(Boolean) playerData.get(k).get("remove"))
 				((RunsafePlayer) playerData.get(k).get("player")).teleport(location);
-		}
 	}
 
 	public void teleport()
@@ -108,7 +107,8 @@ public class PlayerHandler
 
 	public void setUpPlayers()
 	{
-		for (String k : playerData.keySet()) setUpPlayer((RunsafePlayer) playerData.get(k).get("player"));
+		for (String k : playerData.keySet())
+			setUpPlayer((RunsafePlayer) playerData.get(k).get("player"));
 	}
 
 	public void setUpPlayer(RunsafePlayer player)
@@ -163,15 +163,15 @@ public class PlayerHandler
 		}
 
 		if (currLAmount >= winAmount)
-		{
 			winner = true;
-		}
+
 		return out;
 	}
 
 	public void unEquipAll()
 	{
-		for (String k : playerData.keySet()) this.unEquip((RunsafePlayer) playerData.get(k).get("player"));
+		for (String k : playerData.keySet())
+			this.unEquip((RunsafePlayer) playerData.get(k).get("player"));
 	}
 
 	public void unEquip(RunsafePlayer player)
@@ -197,6 +197,7 @@ public class PlayerHandler
 		for (String k : playerData.keySet())
 			if (!(Boolean) playerData.get(k).get("remove"))
 				players.add((RunsafePlayer) playerData.get(k).get("player"));
+
 		return players;
 	}
 
