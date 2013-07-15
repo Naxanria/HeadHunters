@@ -51,7 +51,6 @@ public class PlayerRightClick implements IPlayerRightClick
 						{
 							Buff.Utility.Movement.DecreaseSpeed.duration(3).amplification(5).applyTo(hitPlayer);
 							Buff.Utility.DigSpeed.Decrease.duration(6).amplification(5);
-
 						}
 					used = true;
 				}
