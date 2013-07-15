@@ -61,11 +61,6 @@ public class Util
 		return x < y ? y - x : x - y;
 	}
 
-	public static String prettyLocation(RunsafeLocation location)
-	{
-		return String.format("&a%d %d %d", location.getBlockX(), location.getBlockY(), location.getBlockZ());
-	}
-
 	public static int amountMaterial(RunsafePlayer player, RunsafeMeta search)
 	{
 		int amount = 0;
