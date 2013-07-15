@@ -14,7 +14,8 @@ public class PlayerDisconnect implements IPlayerQuitEvent
 	@Override
 	public void OnPlayerQuit(RunsafePlayerQuitEvent event)
 	{
-		if (playerHandler.isIngame(event.getPlayer())) playerHandler.remove(event.getPlayer());
+		if (playerHandler.isIngame(event.getPlayer()))
+			playerHandler.remove(event.getPlayer());
 	}
 
 	private final PlayerHandler playerHandler;
