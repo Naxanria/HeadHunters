@@ -47,11 +47,13 @@ public class PlayerRightClick implements IPlayerRightClick
 
 					ArrayList<RunsafePlayer> hitPlayers = playerHandler.getIngamePlayers(location, range);
 					for (RunsafePlayer hitPlayer : hitPlayers)
+					{
 						if (!hitPlayer.getName().equalsIgnoreCase(player.getName()))
 						{
 							Buff.Utility.Movement.DecreaseSpeed.duration(3).amplification(5).applyTo(hitPlayer);
 							Buff.Utility.DigSpeed.Decrease.duration(6).amplification(5);
 						}
+					}
 					used = true;
 				}
 				else if (itemID == Material.MAGMA_CREAM.getId())
