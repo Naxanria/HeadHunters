@@ -2,6 +2,8 @@ package no.runsafe.headhunters;
 
 import no.runsafe.framework.minecraft.Enchant;
 import no.runsafe.framework.minecraft.Item;
+import no.runsafe.framework.minecraft.RunsafeServer;
+import no.runsafe.framework.minecraft.inventory.RunsafeInventoryType;
 import no.runsafe.framework.minecraft.inventory.RunsafePlayerInventory;
 import no.runsafe.framework.minecraft.item.meta.RunsafeMeta;
 import no.runsafe.framework.minecraft.player.RunsafePlayer;
@@ -12,37 +14,32 @@ public class EquipmentManager
 {
 	public EquipmentManager()
 	{
-		chest = Item.Combat.Chestplate.Chainmail.getItem();
-		legs = Item.Combat.Leggings.Chainmail.getItem();
-		boots = Item.Combat.Boots.Iron.getItem();
-		head = Item.Combat.Helmet.Gold.getItem();
+		RunsafePlayerInventory inventory = (RunsafePlayerInventory) RunsafeServer.Instance.createInventory(null, RunsafeInventoryType.PLAYER);
+		inventory.setChestplate(Item.Combat.Chestplate.Chainmail.getItem());
+		inventory.setLeggings(Item.Combat.Leggings.Chainmail.getItem());
+		inventory.setBoots(Item.Combat.Boots.Iron.getItem());
+		inventory.setHelmet(Item.Combat.Helmet.Gold.getItem());
+		inventory.addItems(Item.Combat.Sword.Iron.getItem());
 
-		inventory = new ArrayList<RunsafeMeta>();
 		RunsafeMeta bow = Item.Combat.Bow.getItem();
-
-		//infinity and power 1 bow
 		Enchant.InfiniteArrows.power(1).applyTo(bow);
 		Enchant.ArrowDamage.power(1).applyTo(bow);
+		inventory.addItems(bow);
 
-		inventory.add(Item.Combat.Sword.Iron.getItem());
-		inventory.add(bow);
-		inventory.add(Item.Combat.Arrow.getItem());
+		inventory.addItems(Item.Combat.Arrow.getItem());
+		this.inventory = inventory.serialize();
 	}
 
 	public void equip(RunsafePlayer player)
 	{
-		RunsafePlayerInventory playerInventory = player.getInventory();
-		playerInventory.setHelmet(head);
-		playerInventory.setChestplate(chest);
-		playerInventory.setLeggings(legs);
-		playerInventory.setBoots(boots);
-
-		for (RunsafeMeta item : inventory) playerInventory.addItems(item);
+		player.getInventory().unserialize(this.inventory);
+		player.updateInventory();
 	}
 
 	public void unEquip(RunsafePlayer player)
 	{
 		player.getInventory().clear();
+		player.updateInventory();
 	}
 
 	public ArrayList<RunsafeMeta> drops(ArrayList<RunsafeMeta> itemDrop)
@@ -50,9 +47,5 @@ public class EquipmentManager
 		return null;
 	}
 
-	private final RunsafeMeta head;
-	private final RunsafeMeta chest;
-	private final RunsafeMeta legs;
-	private final RunsafeMeta boots;
-	private final ArrayList<RunsafeMeta> inventory;
+	private final String inventory;
 }
