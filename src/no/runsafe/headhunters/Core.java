@@ -24,9 +24,17 @@ import java.util.List;
 
 public class Core implements IConfigurationChanged, IPluginEnabled
 {
-	public Core(IConfiguration config, IOutput console, IScheduler scheduler, RunsafeServer server, VoteHandler voteHandler,
-							PlayerHandler playerHandler, AreaHandler areaHandler, WorldGuardInterface worldGuardInterface,
-                            AreaRepository areaRepository, WaitRoomRepository waitRoomRepository)
+	// The amount of injections here seems far too excessive, things need to be more modular and independent.
+	public Core(IConfiguration config,
+				IOutput console,
+				IScheduler scheduler,
+				RunsafeServer server,
+				VoteHandler voteHandler,
+				PlayerHandler playerHandler,
+				AreaHandler areaHandler,
+				WorldGuardInterface worldGuardInterface,
+				AreaRepository areaRepository,
+				WaitRoomRepository waitRoomRepository)
 	{
 
 		this.config = config;
