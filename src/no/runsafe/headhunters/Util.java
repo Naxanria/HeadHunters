@@ -12,7 +12,6 @@ public class Util
 {
 	public static int getRandom(int min, int max)
 	{
-
 		if (min > max)
 		{
 			int t = min;
@@ -24,13 +23,11 @@ public class Util
 		{
 			return min;
 		}
-
 		return random.nextInt(max - min) + min;
 	}
 
 	public static int getRandom(int min, int max, int not)
 	{
-
 		if (min > max)
 		{
 			int t = min;
@@ -66,6 +63,7 @@ public class Util
 		int amount = 0;
 		for (RunsafeMeta content : player.getInventory().getContents())
 			if (content.is(search.getItemType())) amount += content.getAmount();
+
 		return amount;
 	}
 
@@ -96,7 +94,6 @@ public class Util
 				return;
 			}
 		}
-
 	}
 
 	static final Random random = new Random(System.currentTimeMillis());
