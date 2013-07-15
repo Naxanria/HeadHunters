@@ -85,7 +85,7 @@ public class Util
 		return false;
 	}
 
-	public static void arraylistRemoveIgnoreCase(ArrayList<String> arrayList, String removal)
+	public static void arrayListRemoveIgnoreCase(ArrayList<String> arrayList, String removal)
 	{
 		ArrayList<String> copy = Lists.newArrayList(arrayList);
 		for (String key : copy)

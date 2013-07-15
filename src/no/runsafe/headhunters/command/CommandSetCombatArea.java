@@ -86,7 +86,7 @@ public class CommandSetCombatArea extends PlayerCommand
 				if (!Util.arrayListContainsIgnoreCase(areas, thisRegion))
 					return Constants.ERROR_COLOR + "Region does not exist as a combat area.";
 
-				Util.arraylistRemoveIgnoreCase(areas, thisRegion);
+				Util.arrayListRemoveIgnoreCase(areas, thisRegion);
                 areaHandler.loadAreas(areas);
                 areaRepository.delArea(thisRegion);
 
