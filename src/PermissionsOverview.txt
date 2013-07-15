@@ -15,3 +15,4 @@ start                       headhunters.game-control.start
 stop                        headhunters.game-control.stop
 teleport                    headhunters.regions.teleport
 vote                        headhunters.play
+equipment                   headhunters.admin.equipment
