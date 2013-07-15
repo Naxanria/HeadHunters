@@ -39,6 +39,7 @@ public class PlayerItemPickUp implements IPlayerPickupItemEvent
 				Buff.Utility.Movement.IncreaseSpeed.duration(4).amplification(4).applyTo(player);
 				used = true;
 			}
+
 			if (used)
 			{
 				event.getItem().remove();
