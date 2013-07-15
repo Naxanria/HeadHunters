@@ -22,11 +22,9 @@ public class BlockPlace implements IBlockPlace
 
 		if (eventPlayer.getWorld().getName().equalsIgnoreCase(playerHandler.getWorldName()))
 			if (areaHandler.isInCombatRegion(eventPlayer.getLocation()))
-				if (core.isEnabled())
+				if (core.isEnabled() || !eventPlayer.hasPermission("headhunters.build"))
 					return false;
-				else
-					if (!eventPlayer.hasPermission("headhunters.build"))
-						return false;
+
 		return true;
 
 	}
