@@ -78,32 +78,31 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 		return true;
 	}
 
-    private int loadAreas()
-    {
-        console.fine("loading areas");
-        ArrayList<String> areas = areaRepository.getAreas();
-        String waitroom = waitRoomRepository.getWaitRoom();
+	private int loadAreas()
+	{
+		console.fine("loading areas");
+		ArrayList<String> areas = areaRepository.getAreas();
+		String waitroom = waitRoomRepository.getWaitRoom();
 
-        if(areas.isEmpty())
-            return 1;
-        if(waitroom == null)
-            return 2;
+		if(areas.isEmpty())
+			return 1;
 
-        areaHandler.loadAreas(areas);
-        areaHandler.setWaitRoom(waitroom);
+		if(waitroom == null)
+			return 2;
 
-        return 0;
-    }
+		areaHandler.loadAreas(areas);
+		areaHandler.setWaitRoom(waitroom);
+
+		return 0;
+	}
 
     public void disable()
 	{
         console.fine("disabling");
 		if (this.gamestarted)
-		{
 			this.end();
-		}
 
-		gamestarted = false;
+		this.gamestarted = false;
 		this.config.setConfigValue("enabled", false);
 		this.config.save();
 		this.enabled = false;
@@ -198,9 +197,8 @@ public class Core implements IConfigurationChanged, IPluginEnabled
         this.voteHandler.setMinVotes(config.getConfigValueAsInt("vote.min-votes"));
         this.worldName = config.getConfigValueAsString("world");
         if (this.worldName == null)
-        {
             worldName = "world";
-        }
+
         areaHandler.setWorld(worldName);
 
         areaHandler.setWaitRoomSpawn(new RunsafeLocation(
@@ -224,7 +222,8 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 
 	public void sendMessage(String msg)
 	{
-		for (RunsafePlayer player : server.getWorld(worldName).getPlayers()) player.sendColouredMessage(msg);
+		for (RunsafePlayer player : server.getWorld(worldName).getPlayers())
+			player.sendColouredMessage(msg);
 	}
 
 	public void tick()
@@ -280,14 +279,14 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 				{
 					resetWaittime();
 				}
+
 				if (countdownToStart <= 0)
 				{
-					start();
+					this.start();
 					voteHandler.setCanVote(false);
 					voteHandler.resetVotes();
 				}
 				else
-					//moving all players not in creative mode into the waitroom
 					for (RunsafePlayer p : RunsafeServer.Instance.getWorld(worldName).getPlayers())
 						if (p.getGameMode() != GameMode.CREATIVE && !areaHandler.isInWaitRoom(p))
 							p.teleport(areaHandler.getWaitRoomSpawn());
@@ -310,7 +309,6 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 				}
 				else
 				{
-
 					switch (countdownToEnd)
 					{
 						case 180:
@@ -357,6 +355,7 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 		RunsafePlayer winPlayer = playerHandler.getCurrentLeader();
 		if (winPlayer != null)
 			server.broadcastMessage(String.format(Constants.GAME_WON, winPlayer.getPrettyName()));
+
 		end();
 		playerHandler.reset();
 	}
