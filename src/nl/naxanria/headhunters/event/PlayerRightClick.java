@@ -43,24 +43,28 @@ public class PlayerRightClick implements IPlayerRightClick
 
 					ArrayList<RunsafePlayer> hitPlayers = playerHandler.getIngamePlayers(location, range);
 					for (RunsafePlayer hitPlayer : hitPlayers)
+					{
 						if (!hitPlayer.getName().equalsIgnoreCase(player.getName()))
 						{
 							Buff.Utility.Movement.DecreaseSpeed.duration(3).amplification(5).applyTo(hitPlayer);
 							Buff.Utility.DigSpeed.Decrease.duration(6).amplification(5);
 
 						}
+					}
 					used = true;
 				}
 				else if (itemID == Material.MAGMA_CREAM.getId())
 				{
 					ArrayList<RunsafePlayer> hitPlayers = playerHandler.getIngamePlayers(location, range);
 					for (RunsafePlayer hitPlayer : hitPlayers)
+					{
 						if (!hitPlayer.getName().equalsIgnoreCase(player.getName()))
 						{
 							hitPlayer.strikeWithLightning(true);
 							hitPlayer.setHealth(Math.max(hitPlayer.getHealth() - 4, 0));
 							hitPlayer.setFireTicks(90);
 						}
+					}
 					used = true;
 				}
 				else if (itemID == Material.NETHER_STAR.getId())
@@ -88,14 +92,16 @@ public class PlayerRightClick implements IPlayerRightClick
 				}
 				else if (itemID == Material.INK_SACK.getId())
 				{
-          world.playSound(location, Sound.Environment.Splash, 1f, 1f);
+      			    world.playSound(location, Sound.Environment.Splash, 1f, 1f);
 					ArrayList<RunsafePlayer> hitPlayers = playerHandler.getIngamePlayers(location, range);
 					for (RunsafePlayer hitPlayer : hitPlayers)
+					{
 						if (!hitPlayer.getName().equalsIgnoreCase(player.getName()))
 						{
 							Buff.Combat.Blindness.duration(3).amplification(6).applyTo(hitPlayer);
 							Buff.Combat.Damage.Decrease.duration(3).amplification(3).applyTo(hitPlayer);
 						}
+					}
 					used = true;
 				}
 				else if (itemID == Material.GHAST_TEAR.getId())
