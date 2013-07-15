@@ -32,8 +32,10 @@ public class AreaHandler
         {
             SimpleArea simpleArea = new SimpleArea(RunsafeServer.Instance.getWorld(world), area);
             areas.put(index, simpleArea);
-            if (!first) availableRegions.append(",");
-            else first = false;
+            if (!first)
+				availableRegions.append(",");
+            else
+				first = false;
             availableRegions.append(simpleArea.getRegionName());
             index++;
         }
@@ -48,9 +50,7 @@ public class AreaHandler
 	{
 		currentArea = nextArea;
 		if (!areas.containsKey(currentArea))
-		{
 			currentArea = 0;
-		}
 	}
 
 	public int getNextArea()
@@ -70,17 +70,18 @@ public class AreaHandler
 
 	public void setNextArea(int newNextArea)
 	{
-		if (newNextArea < 0) newNextArea = 0;
+		if (newNextArea < 0)
+			newNextArea = 0;
+
 		nextArea = newNextArea;
 	}
 
 	public int getAreaByName(String name)
 	{
 		for (int i = 0; i < areas.size(); i++)
-		{
 			if (areas.get(i).getRegionName().equalsIgnoreCase(name))
 				return i;
-		}
+
 		return -1;
 	}
 
@@ -117,9 +118,9 @@ public class AreaHandler
 	public boolean isInCombatRegion(RunsafeLocation location)
 	{
 		for (int i = 0; i < areas.size(); i++)
-		{
-			if (areas.get(i).pointInArea(location)) return true;
-		}
+			if (areas.get(i).pointInArea(location))
+				return true;
+
 		return false;
 	}
 
@@ -151,7 +152,8 @@ public class AreaHandler
         waitRoom = new SimpleArea(RunsafeServer.Instance.getWorld(world), region);
     }
 
-    public SimpleArea getWaitRoom(){
+    public SimpleArea getWaitRoom()
+	{
         return waitRoom;
     }
 
