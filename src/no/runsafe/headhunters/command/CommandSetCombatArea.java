@@ -17,10 +17,11 @@ import java.util.List;
 
 public class CommandSetCombatArea extends PlayerCommand
 {
-
-
-    public CommandSetCombatArea(Core core, AreaHandler areaHandler, WorldGuardInterface worldGuardInterface,
-                                AreaRepository areaRepository, WaitRoomRepository waitRoomRepository)
+    public CommandSetCombatArea(Core core,
+								AreaHandler areaHandler,
+								WorldGuardInterface worldGuardInterface,
+                                AreaRepository areaRepository,
+								WaitRoomRepository waitRoomRepository)
 	{
 		super("combatarea", "Adds or removes the WorldGuard region you are in as a combat area.", "headhunters.regions.modify.areas", "p");
 		this.core = core;
@@ -54,11 +55,11 @@ public class CommandSetCombatArea extends PlayerCommand
 
 		if (player.getWorld().getName().equalsIgnoreCase(worldName))
 		{
-
 			List<String> regions = worldGuardInterface.getRegionsAtLocation(player.getLocation());
 
 			if (regions.size() == 0)
 				return Constants.ERROR_COLOR + "No region found";
+
 			if (regions.size() > 1)
 				return Constants.ERROR_COLOR + "Found multiple regions";
 
@@ -71,7 +72,6 @@ public class CommandSetCombatArea extends PlayerCommand
 
 			if (add)
 			{
-
 				if (Util.arrayListContainsIgnoreCase(areas, thisRegion))
 					return Constants.ERROR_COLOR + "Region already exists";
 

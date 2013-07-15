@@ -28,15 +28,14 @@ public class CommandTeleport extends PlayerCommand
 	@Override
 	public String OnExecute(RunsafePlayer executor, HashMap<String, String> parameters)
 	{
-
 		if (playerHandler.isIngame(executor))
-		{
 			return Constants.ERROR_COLOR + "You can not use this command while in game!";
-		}
 
 		String region = parameters.get("region");
 		int regionId = areaHandler.getAreaByName(region);
-		if (regionId == -1) return getUsageCommandParams();
+		if (regionId == -1)
+			return getUsageCommandParams();
+
 		areaHandler.teleport(regionId, executor);
 		executor.setGameMode(GameMode.CREATIVE);
 		return null;

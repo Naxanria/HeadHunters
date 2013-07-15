@@ -16,7 +16,6 @@ public class CommandShowIngame extends PlayerCommand
 	public CommandShowIngame(PlayerHandler playerHandler)
 	{
 		super("show", "shows ingame players", "headhunters.play");
-
 		this.playerHandler = playerHandler;
 	}
 
@@ -26,6 +25,7 @@ public class CommandShowIngame extends PlayerCommand
 		List<String> players = new ArrayList<String>();
 		for (RunsafePlayer player : playerHandler.getIngamePlayers())
 			players.add(player.getPrettyName());
+
 		return Constants.MSG_COLOR + Strings.join(players, ", ");
 	}
 

@@ -13,9 +13,7 @@ public class CommandInfo extends ExecutableCommand
 	public CommandInfo(Core core, PlayerHandler playerHandler, AreaHandler areaHandler)
 	{
 		super("info", "shows info about the current game", "headhunters.play");
-
 		this.core = core;
-
 		this.playerHandler = playerHandler;
 		this.areaHandler = areaHandler;
 	}
@@ -23,7 +21,6 @@ public class CommandInfo extends ExecutableCommand
 	@Override
 	public String OnExecute(ICommandExecutor executor, HashMap<String, String> parameters)
 	{
-
 		ArrayList<String> info = new ArrayList<String>();
 		if (core.isEnabled())
 		{
@@ -54,6 +51,7 @@ public class CommandInfo extends ExecutableCommand
 
 			for (String str : info)
 				executor.sendColouredMessage(Constants.MSG_COLOR + str);
+
 			return null;
 		}
 		return Constants.ERROR_COLOR + "Headhunters is disabled";

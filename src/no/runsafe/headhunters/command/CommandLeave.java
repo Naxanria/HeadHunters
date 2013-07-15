@@ -11,7 +11,6 @@ public class CommandLeave extends PlayerCommand
 	public CommandLeave(PlayerHandler playerHandler)
 	{
 		super("leave", "Leaves the current game", "headhunters.play");
-
 		this.playerHandler = playerHandler;
 	}
 

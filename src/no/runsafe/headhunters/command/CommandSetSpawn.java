@@ -21,7 +21,6 @@ public class CommandSetSpawn extends PlayerCommand
 	@Override
 	public String OnExecute(RunsafePlayer player, HashMap<String, String> parameters)
 	{
-
 		if (player.getWorld().getName().equalsIgnoreCase(areaHandler.getWorld()))
 		{
 			config.setConfigValue("waitingroomspawn.x", player.getLocation().getBlockX());
@@ -34,8 +33,6 @@ public class CommandSetSpawn extends PlayerCommand
 
 			return "Successfully set spawn";
 		}
-
-
 		return Constants.ERROR_COLOR + "Please move to the correct world";
 	}
 
