@@ -19,10 +19,7 @@ public class SimpleArea
 		this.regionName = regionName;
 
 		if (worldGuardInterface != null && worldGuardInterface.serverHasWorldGuard())
-		{
 			region = worldGuardInterface.getRegion(world, regionName);
-
-		}
 	}
 
 
@@ -140,6 +137,7 @@ public class SimpleArea
 					RunsafeSign sign = (RunsafeSign) block.getBlockState();
 					if (sign.getLine(0).equalsIgnoreCase("skip")) continue;
 				}
+
 				if (!block.isAir())
 				{
 					air = 0;
