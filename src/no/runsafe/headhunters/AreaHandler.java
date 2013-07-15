@@ -130,7 +130,7 @@ public class AreaHandler
 		return areas.get(area).pointInArea(location);
 	}
 
-	public ArrayList<String> get__areas__()
+	public ArrayList<String> getAreasList()
 	{
 		return areasList;
 	}
