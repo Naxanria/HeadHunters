@@ -27,13 +27,10 @@ public class PlayerDeath implements IPlayerDeathEvent
 	@Override
 	public void OnPlayerDeathEvent(RunsafePlayerDeathEvent event)
 	{
-
 		final RunsafePlayer player = event.getEntity();
 
 		if (playerHandler.isIngame(player))
 		{
-
-
 			RunsafePlayer killer = player.getKiller();
 			if (killer != null) killer.setHealth(Math.min(killer.getHealth() + 4, 20));
 			event.setDroppedXP(0);
@@ -61,7 +58,6 @@ public class PlayerDeath implements IPlayerDeathEvent
 					((CraftPlayer) player.getRawPlayer()).getHandle().playerConnection.a(packet205ClientCommand);
 				}
 			}, 10L);
-
 		}
 	}
 
