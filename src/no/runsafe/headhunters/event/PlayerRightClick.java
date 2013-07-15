@@ -42,7 +42,6 @@ public class PlayerRightClick implements IPlayerRightClick
 				int itemID = usingItem.getItemId();
 				if (itemID == Material.SLIME_BALL.getId())
 				{
-
 					//visual effect...
 					server.getWorld(playerHandler.getWorldName()).playEffect(location, Effect.POTION_BREAK, 16426);
 
@@ -55,11 +54,9 @@ public class PlayerRightClick implements IPlayerRightClick
 
 						}
 					used = true;
-
 				}
 				else if (itemID == Material.MAGMA_CREAM.getId())
 				{
-
 					ArrayList<RunsafePlayer> hitPlayers = playerHandler.getIngamePlayers(location, range);
 					for (RunsafePlayer hitPlayer : hitPlayers)
 						if (!hitPlayer.getName().equalsIgnoreCase(player.getName()))
@@ -69,7 +66,6 @@ public class PlayerRightClick implements IPlayerRightClick
 							hitPlayer.setFireTicks(90);
 						}
 					used = true;
-
 				}
 				else if (itemID == Material.NETHER_STAR.getId())
 				{
@@ -87,15 +83,12 @@ public class PlayerRightClick implements IPlayerRightClick
 					{
 						server.getWorld(playerHandler.getWorldName()).createExplosion(player.getLocation(), 2f, false, false);
 					}
-
 				}
 				else if (itemID == Material.BLAZE_ROD.getId())
 				{
-
 					player.Launch(Material.FIREBALL.name());
 					RunsafeServer.Instance.getWorld(playerHandler.getWorldName()).getRaw().playSound(player.getLocation().getRaw(), Sound.GHAST_FIREBALL, 1f, 1f);
 					used = true;
-
 				}
 				else if (itemID == Material.INK_SACK.getId())
 				{
@@ -123,12 +116,9 @@ public class PlayerRightClick implements IPlayerRightClick
 
 				player.getInventory().setItemInHand(items);
 			}
-
 			return !used;
 		}
-
 		return true;
-
 	}
 
 	private final RunsafeServer server;
