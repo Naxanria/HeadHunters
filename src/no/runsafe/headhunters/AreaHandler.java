@@ -4,6 +4,7 @@ import no.runsafe.framework.minecraft.RunsafeLocation;
 import no.runsafe.framework.minecraft.RunsafeServer;
 import no.runsafe.framework.minecraft.entity.RunsafeEntity;
 import no.runsafe.framework.minecraft.player.RunsafePlayer;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.GameMode;
 
 import java.util.ArrayList;
@@ -17,7 +18,6 @@ public class AreaHandler
 		areas = new HashMap<Integer, SimpleArea>();
 		currentArea = 0;
 		nextArea = 0;
-		availableRegions = new StringBuilder();
 	}
 
 	public void loadAreas(List<String> areaList)
@@ -25,20 +25,14 @@ public class AreaHandler
 		areasList = (ArrayList<String>) areaList;
 		areas.clear();
 		int index = 0;
-		boolean first = true;
-        availableRegions = new StringBuilder();
 
         for (String area : areaList)
         {
             SimpleArea simpleArea = new SimpleArea(RunsafeServer.Instance.getWorld(world), area);
             areas.put(index, simpleArea);
-            if (!first)
-				availableRegions.append(",");
-            else
-				first = false;
-            availableRegions.append(simpleArea.getRegionName());
             index++;
         }
+		this.availableRegions = StringUtils.join(areasList, ",");
 	}
 
 	public int getCurrentArea()
@@ -107,7 +101,7 @@ public class AreaHandler
 
 	public String getAvailableRegions()
 	{
-		return availableRegions.toString();
+		return availableRegions;
 	}
 
 	public void teleport(int region, RunsafePlayer player)
@@ -182,7 +176,7 @@ public class AreaHandler
     }
 
 	private final HashMap<Integer, SimpleArea> areas;
-	private StringBuilder availableRegions;
+	private String availableRegions;
 	private int currentArea;
 	private int nextArea;
 	private String world = "world";
