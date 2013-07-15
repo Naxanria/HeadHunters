@@ -117,7 +117,7 @@ public class PlayerRightClick implements IPlayerRightClick
 			if (used)
 			{
 				RunsafeMeta items = player.getItemInHand();
-				items.setAmount(items.getAmount() - 1);
+				items.remove(1);
 
 				player.getInventory().setItemInHand(items);
 			}
