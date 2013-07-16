@@ -16,3 +16,9 @@ stop                        headhunters.game-control.stop
 teleport                    headhunters.regions.teleport
 vote                        headhunters.play
 equipment                   headhunters.admin.equipment
+
+
+
+Action                      Permission
+----------------------------------------------
+Building                    headhunters.build
