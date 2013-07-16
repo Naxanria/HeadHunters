@@ -3,7 +3,7 @@ package nl.naxanria.headhunters.command;
 import nl.naxanria.headhunters.Constants;
 import nl.naxanria.headhunters.Core;
 import nl.naxanria.headhunters.database.EquipmentRepository;
-import nl.naxanria.headhunters.handler.EquipmentManager;
+import nl.naxanria.headhunters.handler.EquipmentHandler;
 import no.runsafe.framework.api.command.player.PlayerCommand;
 import no.runsafe.framework.minecraft.player.RunsafePlayer;
 
@@ -11,11 +11,11 @@ import java.util.HashMap;
 
 public class CommandSetEquipment extends PlayerCommand {
 
-	public CommandSetEquipment(EquipmentRepository equipmentRepository, EquipmentManager equipmentManager, Core core)
+	public CommandSetEquipment(EquipmentRepository equipmentRepository, EquipmentHandler equipmentHandler, Core core)
 	{
 		super("equipment", "Sets the default equipment as the players inventory", "headhunters.admin.equipment");
 		this.equipmentRepository = equipmentRepository;
-		this.equipmentManager = equipmentManager;
+		this.equipmentHandler = equipmentHandler;
 		this.core = core;
 	}
 
@@ -25,12 +25,12 @@ public class CommandSetEquipment extends PlayerCommand {
 		if(core.isEnabled())
 			return Constants.MSG_COLOR + "Only use this command when headhunters is disabled";
 		equipmentRepository.setEquipment(executor.getInventory());
-		equipmentManager.update();
+		equipmentHandler.update();
 		return Constants.MSG_COLOR + "Successfully set the standard equipment";
 	}
 
 	private final EquipmentRepository equipmentRepository;
-	private final EquipmentManager equipmentManager;
+	private final EquipmentHandler equipmentHandler;
 	private final Core core;
 
 }

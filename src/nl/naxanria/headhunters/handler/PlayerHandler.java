@@ -15,11 +15,11 @@ import java.util.HashMap;
 
 public class PlayerHandler
 {
-	public PlayerHandler(EquipmentManager manager, AreaHandler areaHandler, ScoreboardHandler scoreboardHandler)
+	public PlayerHandler(EquipmentHandler manager, AreaHandler areaHandler, ScoreboardHandler scoreboardHandler)
 	{
 		//playerData = new HashMap<String, HashMap<String, Object>>();
 		playerData = new HashMap<String, Boolean>();
-		this.equipmentManager = manager;
+		this.equipmentHandler = manager;
 		this.areaHandler = areaHandler;
         this.scoreboardHandler = scoreboardHandler;
 	}
@@ -114,7 +114,7 @@ public class PlayerHandler
 	public void setUpPlayer(RunsafePlayer player)
 	{
 		player.setGameMode(GameMode.SURVIVAL);
-		equipmentManager.equip(player);
+		equipmentHandler.equip(player);
 		player.setSaturation(10f);
 		player.setHealth(20);
 		player.setFoodLevel(20);
@@ -226,7 +226,7 @@ public class PlayerHandler
 	private final HashMap<String, Boolean> playerData;
 	private final int leaderAmount = -1;
   private final ScoreboardHandler scoreboardHandler;
-	private final EquipmentManager equipmentManager;
+	private final EquipmentHandler equipmentHandler;
 	Boolean winner = false;
 	private RunsafePlayer leader;
 	private int winAmount = 0;

@@ -25,7 +25,7 @@ public class Plugin extends RunsafeConfigurablePlugin
 
 		//handlers and managers
         this.addComponent(ScoreboardHandler.class);
-		this.addComponent(EquipmentManager.class);
+		this.addComponent(EquipmentHandler.class);
 		this.addComponent(RandomItem.class);
 		this.addComponent(AreaHandler.class);
 		this.addComponent(VoteHandler.class);

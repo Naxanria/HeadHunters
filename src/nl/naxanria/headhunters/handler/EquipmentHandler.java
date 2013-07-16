@@ -3,9 +3,9 @@ package nl.naxanria.headhunters.handler;
 import nl.naxanria.headhunters.database.EquipmentRepository;
 import no.runsafe.framework.minecraft.player.RunsafePlayer;
 
-public class EquipmentManager
+public class EquipmentHandler
 {
-	public EquipmentManager(EquipmentRepository equipmentRepository)
+	public EquipmentHandler(EquipmentRepository equipmentRepository)
 	{
 		this.equipmentRepository = equipmentRepository;
 		update();
