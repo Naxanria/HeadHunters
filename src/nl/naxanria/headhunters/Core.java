@@ -206,7 +206,7 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 		{
 			if (!this.gamestarted)
 			{
-				ArrayList<RunsafePlayer> waitingRoomPlayers = areaHandler.getWaitRoomPlayers();
+				ArrayList<RunsafePlayer> waitingRoomPlayers = areaHandler.getWaitRoomPlayers(GameMode.SURVIVAL);
 				voteHandler.setCanVote(true);
 				if (voteHandler.votePass(waitingRoomPlayers.size()))
 				{
