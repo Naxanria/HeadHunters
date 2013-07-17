@@ -1,6 +1,7 @@
 package nl.naxanria.headhunters.handler;
 
 import nl.naxanria.headhunters.Constants;
+import nl.naxanria.headhunters.RandomItem;
 import nl.naxanria.headhunters.Util;
 import no.runsafe.framework.minecraft.Buff;
 import no.runsafe.framework.minecraft.Item;
@@ -9,19 +10,21 @@ import no.runsafe.framework.minecraft.RunsafeServer;
 import no.runsafe.framework.minecraft.item.meta.RunsafeMeta;
 import no.runsafe.framework.minecraft.player.RunsafePlayer;
 import org.bukkit.GameMode;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class PlayerHandler
 {
-	public PlayerHandler(EquipmentHandler manager, AreaHandler areaHandler, ScoreboardHandler scoreboardHandler)
+	public PlayerHandler(EquipmentHandler manager, AreaHandler areaHandler, ScoreboardHandler scoreboardHandler, RandomItem randomItem)
 	{
-		//playerData = new HashMap<String, HashMap<String, Object>>();
 		playerData = new HashMap<String, Boolean>();
 		this.equipmentHandler = manager;
 		this.areaHandler = areaHandler;
-        this.scoreboardHandler = scoreboardHandler;
+    this.scoreboardHandler = scoreboardHandler;
+		this.randomItem = randomItem;
 	}
 
 	public boolean isWinner()
@@ -44,16 +47,20 @@ public class PlayerHandler
 		if (isIngame(player))
 		{
 			playerData.put(player.getName(), true);
-            scoreboardHandler.removeScoreBoard(player);
+      scoreboardHandler.removeScoreBoard(player);
+			if(areaHandler.isInCurrentCombatRegion(player.getLocation()))
+			{
+				unEquip(player);
+				RunsafeMeta heads = Item.Decoration.Head.Human.getItem();
+				heads.setAmount(Util.amountMaterial(player, heads));
+				player.getWorld().dropItem(player.getEyeLocation(), heads);
+				ArrayList<RunsafeMeta> toDrop = randomItem.getCleanedDrops(player.getInventory().getContents());
+				for(RunsafeMeta meta : toDrop)
+					player.getWorld().dropItem(player.getEyeLocation(), meta);
 
-			unEquip(player);
-			//Todo: add dropping all usable items
-			RunsafeMeta heads = Item.Decoration.Head.Human.getItem();
-			heads.setAmount(Util.amountMaterial(player, heads));
-			player.getWorld().dropItem(player.getEyeLocation(), heads);
-			player.getInventory().clear();
-			player.teleport(areaHandler.getWaitRoomSpawn());
-
+				player.getInventory().clear();
+				player.teleport(areaHandler.getWaitRoomSpawn());
+			}
 			ArrayList<RunsafePlayer> ingame = getIngamePlayers();
 
 			if (ingame.size() == 1)
@@ -222,7 +229,7 @@ public class PlayerHandler
 	}
 
 	private final AreaHandler areaHandler;
-	//private final HashMap<String, HashMap<String, Object>> playerData;
+	private final RandomItem randomItem;
 	private final HashMap<String, Boolean> playerData;
 	private final int leaderAmount = -1;
   private final ScoreboardHandler scoreboardHandler;
