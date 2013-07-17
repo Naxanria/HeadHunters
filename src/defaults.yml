@@ -7,7 +7,6 @@ min-players: 2
 vote:
   min-percent: 60
   min-votes: 3
-waitingarea: waitroom
 waitingroomspawn:
   x: 0
   y: 0

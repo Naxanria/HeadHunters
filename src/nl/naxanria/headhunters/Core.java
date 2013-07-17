@@ -4,6 +4,7 @@ package nl.naxanria.headhunters;
 import nl.naxanria.headhunters.database.WaitRoomRepository;
 import nl.naxanria.headhunters.handler.AreaHandler;
 import nl.naxanria.headhunters.handler.PlayerHandler;
+import nl.naxanria.headhunters.handler.ScoreboardHandler;
 import nl.naxanria.headhunters.handler.VoteHandler;
 import no.runsafe.framework.api.IConfiguration;
 import no.runsafe.framework.api.IOutput;
@@ -18,6 +19,7 @@ import no.runsafe.framework.text.ConsoleColour;
 import nl.naxanria.headhunters.database.AreaRepository;
 import no.runsafe.worldguardbridge.WorldGuardInterface;
 import org.bukkit.GameMode;
+import org.bukkit.scoreboard.ScoreboardManager;
 
 import java.util.ArrayList;
 
@@ -26,7 +28,7 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 
     public Core(IOutput console, IScheduler scheduler, RunsafeServer server, VoteHandler voteHandler,
 							PlayerHandler playerHandler, AreaHandler areaHandler, WorldGuardInterface worldGuardInterface,
-							AreaRepository areaRepository, WaitRoomRepository waitRoomRepository)
+							AreaRepository areaRepository, WaitRoomRepository waitRoomRepository, ScoreboardHandler scoreboardHandler)
 	{
 		this.console = console;
 		this.server = server;
@@ -36,6 +38,7 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 		this.areaRepository = areaRepository;
 		this.gamestarted = false;
    	this.waitRoomRepository = waitRoomRepository;
+		this.scoreboardHandler = scoreboardHandler;
 
 		SimpleArea.setWorldGuardInterface(worldGuardInterface);
 
@@ -306,6 +309,11 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 							break;
 					}
 				}
+
+				int min = countdownToEnd / 60;
+				int sec = countdownToEnd % 60;
+				scoreboardHandler.updateScoreboardTimer(String.format("%s:%s", Util.fillZeros(min), Util.fillZeros(sec)));
+
 				this.countdownToEnd--;
 				if (countdownToEnd <= 0)
 				{
@@ -379,7 +387,8 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 	private final PlayerHandler playerHandler;
 	private final AreaHandler areaHandler;
 	private final AreaRepository areaRepository;
-    private final WaitRoomRepository waitRoomRepository;
+	private final WaitRoomRepository waitRoomRepository;
+	private final ScoreboardHandler scoreboardHandler;
 	private boolean gamestarted = false;
 	private boolean enabled = false;
 	private IConfiguration config;

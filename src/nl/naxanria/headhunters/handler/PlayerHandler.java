@@ -80,8 +80,9 @@ public class PlayerHandler
 
 	public void addPlayer(RunsafePlayer player)
 	{
-			playerData.put(player.getName(), false);
-    	scoreboardHandler.addScoreboard(player);
+		playerData.put(player.getName(), false);
+		scoreboardHandler.addScoreboard(player);
+		scoreboardHandler.updateScoreboard(player, 0);
 	}
 
 	public void addPlayers(ArrayList<RunsafePlayer> players)
@@ -116,6 +117,7 @@ public class PlayerHandler
 		setUpPlayers();
 		teleport();
 		winAmount = (int) ((players.size() / 2) + players.size() * 3.5);
+		scoreboardHandler.updateScoreBoardCaption(winAmount);
 	}
 
 	public void setUpPlayers()

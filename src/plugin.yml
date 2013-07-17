@@ -1,6 +1,6 @@
 name: HeadHunters
 main: nl.naxanria.headhunters.Plugin
-version: 1.0.99b
+version: 1.0RC
 author: Naxanria
 depend: [RunsafeWorldGuardBridge]
 description:
