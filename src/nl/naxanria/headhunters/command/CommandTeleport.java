@@ -8,6 +8,7 @@ import nl.naxanria.headhunters.handler.PlayerHandler;
 import org.bukkit.GameMode;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class CommandTeleport extends PlayerCommand
 {
@@ -16,6 +17,12 @@ public class CommandTeleport extends PlayerCommand
 		super("teleport", "teleports you to a given area", "headhunters.regions.teleport", "region");
 		this.playerHandler = playerHandler;
 		this.areaHandler = areaHandler;
+	}
+
+	@Override
+	public List<String> getParameterOptions(String parameter)
+	{
+		return areaHandler.getAvailableRegionsAsList();
 	}
 
 	@Override

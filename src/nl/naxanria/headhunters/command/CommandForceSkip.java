@@ -7,7 +7,9 @@ import no.runsafe.framework.api.command.player.PlayerCommand;
 import no.runsafe.framework.minecraft.player.RunsafePlayer;
 import nl.naxanria.headhunters.handler.AreaHandler;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class CommandForceSkip extends PlayerCommand
 {
@@ -18,6 +20,16 @@ public class CommandForceSkip extends PlayerCommand
 		this.areaHandler = areaHandler;
 		this.voteHandler = voteHandler;
 	}
+
+	@Override
+	public List<String> getParameterOptions(String parameter)
+	{
+		ArrayList<String> parameterOptions = new ArrayList<String>();
+		parameterOptions.addAll(areaHandler.getAvailableRegionsAsList());
+		parameterOptions.add("random");
+		return parameterOptions;
+	}
+
 
 	@Override
 	public String OnExecute(RunsafePlayer executor, HashMap<String, String> parameters)

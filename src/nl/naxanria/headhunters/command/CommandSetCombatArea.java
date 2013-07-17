@@ -36,6 +36,16 @@ public class CommandSetCombatArea extends PlayerCommand
 	}
 
 	@Override
+	public List<String> getParameterOptions(String parameter)
+	{
+		ArrayList<String> parameterOptions = new ArrayList<String>();
+		parameterOptions.add("add");
+		parameterOptions.add("del");
+
+		return parameterOptions;
+	}
+
+	@Override
 	public String OnExecute(RunsafePlayer player, HashMap<String, String> parameters)
 	{
 		boolean add;
@@ -55,7 +65,7 @@ public class CommandSetCombatArea extends PlayerCommand
 
 			List<String> regions = worldGuardInterface.getRegionsAtLocation(player.getLocation());
 
-			if (regions.size() == 0)
+			if (regions == null || regions.size() == 0)
 				return Constants.ERROR_COLOR + "No region found";
 			if (regions.size() > 1)
 				return Constants.ERROR_COLOR + "Found multiple regions";

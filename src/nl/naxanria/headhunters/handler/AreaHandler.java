@@ -110,6 +110,9 @@ public class AreaHandler implements IConfigurationChanged
 		return Strings.join(availableRegions, ", ");
 	}
 
+	public List<String> getAvailableRegionsAsList() {
+		return availableRegions;
+	}
 	public void teleport(int region, RunsafePlayer player)
 	{
 		areas.get(region).teleportToArea(player);
@@ -219,4 +222,5 @@ public class AreaHandler implements IConfigurationChanged
 	private RunsafeWorld world;
 	private SimpleArea waitRoom;
 	private RunsafeLocation waitroomSpawn;
+
 }
