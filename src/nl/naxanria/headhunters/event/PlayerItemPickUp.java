@@ -33,7 +33,7 @@ public class PlayerItemPickUp implements IPlayerPickupItemEvent
 			boolean used = false;
 			if (usingItem.is(Item.Food.Golden.Apple))
 			{
-				Buff.Healing.Regeneration.amplification(2).duration(6).applyTo(player);
+				Buff.Healing.Regeneration.amplification(2).duration(4).applyTo(player);
 				used = true;
 			}
 			else if (usingItem.is(Item.Materials.Sugar))

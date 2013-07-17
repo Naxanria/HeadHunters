@@ -28,10 +28,10 @@ public class CommandConfig extends ExecutableCommand
 		String value = parameters.get("value");
 
 		if (config.getConfigValueAsString(key) == null)
-			return "&cKey &f" + key + "&c does not exist";
+			return String.format("&cKey &f%s&c does not exist", key);
 
 		config.setConfigValue(key, value);
-		return "&bSet &f" + key + "&b to &e" + value;
+		return String.format("&bSet &f%s&b to &e%s", key, value);
 	}
 
 	private final Core core;

@@ -69,7 +69,6 @@ public class CommandSetCombatArea extends PlayerCommand
 
 			if (add)
 			{
-
 				if (Util.arrayListContainsIgnoreCase(areas, thisRegion))
 					return Constants.ERROR_COLOR + "Region already exists";
 

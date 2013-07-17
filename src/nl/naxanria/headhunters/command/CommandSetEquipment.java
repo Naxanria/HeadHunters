@@ -23,7 +23,7 @@ public class CommandSetEquipment extends PlayerCommand {
 	public String OnExecute(RunsafePlayer executor, HashMap<String, String> parameters)
 	{
 		if(core.isEnabled())
-			return Constants.MSG_COLOR + "Only use this command when headhunters is disabled";
+			return Constants.MSG_COLOR + "Only use this command when headhunters is disabled!";
 		equipmentRepository.setEquipment(executor.getInventory());
 		equipmentHandler.update();
 		return Constants.MSG_COLOR + "Successfully set the standard equipment";

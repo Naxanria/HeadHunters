@@ -42,7 +42,6 @@ public class CommandInfo extends ExecutableCommand
 			}
 			else
 			{
-
 				int min = (int) Math.floor(core.getTimeToStart() / 60);
 				int sec = core.getTimeToStart() % 60;
 				info.add(String.format("Game will start in &f%d:%s", min, Util.fillZeros(sec)));

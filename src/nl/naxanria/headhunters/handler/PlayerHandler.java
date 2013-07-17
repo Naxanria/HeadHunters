@@ -143,12 +143,6 @@ public class PlayerHandler
 		winner = false;
 	}
 
-  public void resetScoreboard()
-    {
-        for(String playerName : playerData.keySet())
-            scoreboardHandler.removeScoreBoard(RunsafeServer.Instance.getPlayerExact(playerName));
-  }
-
 	public ArrayList<String> tick()
 	{
 		ArrayList<String> out = new ArrayList<String>();

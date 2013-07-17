@@ -10,7 +10,7 @@ public class CommandJoin extends PlayerCommand
 {
 	public CommandJoin(Core core)
 	{
-		super("join", "CommandJoin a headhunters game", "headhunters.play");
+		super("join", "Join a headhunters game", "headhunters.play");
 		this.core = core;
 	}
 

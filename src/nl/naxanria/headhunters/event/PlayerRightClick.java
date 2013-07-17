@@ -37,7 +37,6 @@ public class PlayerRightClick implements IPlayerRightClick
 				RunsafeLocation location = (targetBlock != null) ? targetBlock.getLocation() : player.getLocation();
 				if (usingItem.is(Item.Miscellaneous.Slimeball))
 				{
-					//visual effect...
 					world.playEffect(location, Effect.POTION_BREAK, 16426);
 
 					ArrayList<RunsafePlayer> hitPlayers = playerHandler.getIngamePlayers(location, range);
