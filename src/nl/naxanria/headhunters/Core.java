@@ -35,7 +35,8 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 		this.areaHandler = areaHandler;
 		this.areaRepository = areaRepository;
 		this.gamestarted = false;
-        this.waitRoomRepository = waitRoomRepository;
+   	this.waitRoomRepository = waitRoomRepository;
+
 		SimpleArea.setWorldGuardInterface(worldGuardInterface);
 
 		scheduler.startSyncRepeatingTask(

@@ -3,6 +3,7 @@ package nl.naxanria.headhunters.handler;
 import nl.naxanria.headhunters.Constants;
 import nl.naxanria.headhunters.RandomItem;
 import nl.naxanria.headhunters.Util;
+import no.runsafe.framework.api.IOutput;
 import no.runsafe.framework.minecraft.Buff;
 import no.runsafe.framework.minecraft.Item;
 import no.runsafe.framework.minecraft.RunsafeLocation;
@@ -18,13 +19,14 @@ import java.util.List;
 
 public class PlayerHandler
 {
-	public PlayerHandler(EquipmentHandler manager, AreaHandler areaHandler, ScoreboardHandler scoreboardHandler, RandomItem randomItem)
+	public PlayerHandler(EquipmentHandler manager, AreaHandler areaHandler, ScoreboardHandler scoreboardHandler, RandomItem randomItem, IOutput console)
 	{
 		playerData = new HashMap<String, Boolean>();
 		this.equipmentHandler = manager;
 		this.areaHandler = areaHandler;
     this.scoreboardHandler = scoreboardHandler;
 		this.randomItem = randomItem;
+		this.console = console;
 	}
 
 	public boolean isWinner()
@@ -48,19 +50,20 @@ public class PlayerHandler
 		{
 			playerData.put(player.getName(), true);
       scoreboardHandler.removeScoreBoard(player);
-			if(areaHandler.isInCurrentCombatRegion(player.getLocation()))
-			{
-				unEquip(player);
-				RunsafeMeta heads = Item.Decoration.Head.Human.getItem();
-				heads.setAmount(Util.amountMaterial(player, heads));
-				player.getWorld().dropItem(player.getEyeLocation(), heads);
-				ArrayList<RunsafeMeta> toDrop = randomItem.getCleanedDrops(player.getInventory().getContents());
-				for(RunsafeMeta meta : toDrop)
-					player.getWorld().dropItem(player.getEyeLocation(), meta);
+			if(player.isOnline())
+				if(areaHandler.isInCurrentCombatRegion(player.getLocation()))
+				{
+					unEquip(player);
+					RunsafeMeta heads = Item.Decoration.Head.Human.getItem();
+					heads.setAmount(Util.amountMaterial(player, heads));
+					player.getWorld().dropItem(player.getEyeLocation(), heads);
+					ArrayList<RunsafeMeta> toDrop = randomItem.getCleanedDrops(player.getInventory().getContents());
+					for(RunsafeMeta meta : toDrop)
+						player.getWorld().dropItem(player.getEyeLocation(), meta);
 
-				player.getInventory().clear();
-				player.teleport(areaHandler.getWaitRoomSpawn());
-			}
+					player.getInventory().clear();
+					player.teleport(areaHandler.getWaitRoomSpawn());
+				}
 			ArrayList<RunsafePlayer> ingame = getIngamePlayers();
 
 			if (ingame.size() == 1)
@@ -74,33 +77,44 @@ public class PlayerHandler
 	public boolean isIngame(RunsafePlayer player)
 	{
 		String playerName = player.getName();
-		return areaHandler.isInGameWorld(player) && playerData.containsKey(playerName) && !playerData.get(playerName);
+		return areaHandler.isInGameWorld(player) && playerData.containsKey(playerName) && !playerData.get(playerName) && player.isOnline();
 	}
 
 
 	public void addPlayer(RunsafePlayer player)
 	{
-		playerData.put(player.getName(), false);
-        scoreboardHandler.addScoreboard(player);
+		if(player.isOnline())
+		{
+			playerData.put(player.getName(), false);
+    	scoreboardHandler.addScoreboard(player);
+		}
 	}
 
 	public void addPlayers(ArrayList<RunsafePlayer> players)
 	{
-		for (RunsafePlayer player : players) addPlayer(player);
+		for (RunsafePlayer player : players)
+			if(player.isOnline())
+				addPlayer(player);
 	}
 
 	public void teleportAllPlayers(RunsafeLocation location)
 	{
 		for (String playerName : playerData.keySet())
 			if (!playerData.get(playerName))
-				RunsafeServer.Instance.getPlayerExact(playerName).teleport(location);
+				teleport(RunsafeServer.Instance.getPlayerExact(playerName), location);
 	}
 
 	public void teleport()
 	{
 		for (String playerName : playerData.keySet())
 			if (!this.playerData.get(playerName))
-				RunsafeServer.Instance.getPlayerExact(playerName).teleport(areaHandler.getSafeLocation());
+				teleport(RunsafeServer.Instance.getPlayerExact(playerName), areaHandler.getSafeLocation());
+	}
+
+	public void teleport(RunsafePlayer player, RunsafeLocation location)
+	{
+		if(player.isOnline())
+			player.teleport(location);
 	}
 
 	public void start(ArrayList<RunsafePlayer> players)
@@ -120,13 +134,16 @@ public class PlayerHandler
 
 	public void setUpPlayer(RunsafePlayer player)
 	{
-		player.setGameMode(GameMode.SURVIVAL);
-		equipmentHandler.equip(player);
-		player.setSaturation(10f);
-		player.setHealth(20);
-		player.setFoodLevel(20);
-		player.removeBuffs();
-		Buff.Resistance.Damage.amplification(2).duration(6).applyTo(player);
+		if(player.isOnline())
+		{
+			player.setGameMode(GameMode.SURVIVAL);
+			equipmentHandler.equip(player);
+			player.setSaturation(10f);
+			player.setHealth(20);
+			player.setFoodLevel(20);
+			player.removeBuffs();
+			Buff.Resistance.Damage.amplification(2).duration(6).applyTo(player);
+		}
 	}
 
 	public void reset()
@@ -161,7 +178,7 @@ public class PlayerHandler
 				}
         scoreboardHandler.updateScoreboard(player, amount);
 				player.setSaturation(10f);
-				if (!player.getWorld().getName().equalsIgnoreCase(getWorldName()))
+				if (isIngame(player) && !player.getWorld().getName().equalsIgnoreCase(getWorldName()))
 				{
 					remove(player);
 					player.sendColouredMessage("&3You have been removed from the match.");
@@ -191,12 +208,16 @@ public class PlayerHandler
 
 	public void unEquip(RunsafePlayer player)
 	{
-		player.getInventory().clear();
+		if(player == null) return;
+		console.fine("Unequiping:" + player.getName());
+		console.fine("Online: " + player.isOnline());
+		if(player.isOnline())
+			player.getInventory().clear();
+		console.fine("Unequipped!");
 	}
 
 	public void end()
 	{
-
 		this.teleportAllPlayers(areaHandler.getWaitRoomSpawn());
 		this.unEquipAll();
 		this.reset();
@@ -221,9 +242,9 @@ public class PlayerHandler
 		ArrayList<RunsafePlayer> players = new ArrayList<RunsafePlayer>();
 		for (String playerName : playerData.keySet())
         {
-            RunsafePlayer player = RunsafeServer.Instance.getPlayerExact(playerName);
-			if (!this.playerData.get(playerName) && location.distance(player.getLocation()) < range)
-				players.add(player);
+          RunsafePlayer player = RunsafeServer.Instance.getPlayerExact(playerName);
+					if (!this.playerData.get(playerName) && location.distance(player.getLocation()) < range)
+						players.add(player);
         }
 		return players;
 	}
@@ -234,6 +255,7 @@ public class PlayerHandler
 	private final int leaderAmount = -1;
   private final ScoreboardHandler scoreboardHandler;
 	private final EquipmentHandler equipmentHandler;
+	private final IOutput console;
 	Boolean winner = false;
 	private RunsafePlayer leader;
 	private int winAmount = 0;
