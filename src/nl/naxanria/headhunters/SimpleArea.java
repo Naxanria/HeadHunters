@@ -143,7 +143,8 @@ public class SimpleArea
 				if (block.getBlockState() instanceof RunsafeSign)
 				{
 					RunsafeSign sign = (RunsafeSign) block.getBlockState();
-					if (sign.getLine(0).equalsIgnoreCase("skip")) continue;
+					if (sign.getLine(0).equalsIgnoreCase("skip"))
+						continue;
 				}
 				if (!block.isAir())
 				{
@@ -154,7 +155,7 @@ public class SimpleArea
 				{
 					air++;
 					if (foundGround && air > 1)
-						return new RunsafeLocation(world, (double) x, (double) y - 1, (double) z);
+						return new RunsafeLocation(world, x + 0.5, (double) y - 1, z + 0.5);
 				}
 			}
 			tries--;
