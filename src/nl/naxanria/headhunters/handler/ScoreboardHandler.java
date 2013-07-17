@@ -13,7 +13,8 @@ public class ScoreboardHandler {
         this.scoreboard = scoreboardManager.getNewScoreboard();
         this.emptyScoreboard = scoreboardManager.getNewScoreboard();
         this.objective = scoreboard.registerNewObjective("heads", "heads");
-        objective.setDisplaySlot(DisplaySlot.BELOW_NAME);
+        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+        //objective.setDisplaySlot(DisplaySlot.BELOW_NAME);
     }
 
     public void addScoreboard(RunsafePlayer player)

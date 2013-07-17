@@ -11,11 +11,9 @@ import no.runsafe.framework.minecraft.RunsafeServer;
 import no.runsafe.framework.minecraft.item.meta.RunsafeMeta;
 import no.runsafe.framework.minecraft.player.RunsafePlayer;
 import org.bukkit.GameMode;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class PlayerHandler
 {
@@ -50,20 +48,19 @@ public class PlayerHandler
 		{
 			playerData.put(player.getName(), true);
       scoreboardHandler.removeScoreBoard(player);
-			if(player.isOnline())
-				if(areaHandler.isInCurrentCombatRegion(player.getLocation()))
-				{
-					unEquip(player);
-					RunsafeMeta heads = Item.Decoration.Head.Human.getItem();
-					heads.setAmount(Util.amountMaterial(player, heads));
-					player.getWorld().dropItem(player.getEyeLocation(), heads);
-					ArrayList<RunsafeMeta> toDrop = randomItem.getCleanedDrops(player.getInventory().getContents());
-					for(RunsafeMeta meta : toDrop)
-						player.getWorld().dropItem(player.getEyeLocation(), meta);
+			if(areaHandler.isInCurrentCombatRegion(player.getLocation()))
+			{
+				unEquip(player);
+				RunsafeMeta heads = Item.Decoration.Head.Human.getItem();
+				heads.setAmount(Util.amountMaterial(player, heads));
+				player.getWorld().dropItem(player.getEyeLocation(), heads);
+				ArrayList<RunsafeMeta> toDrop = randomItem.getCleanedDrops(player.getInventory().getContents());
+				for(RunsafeMeta meta : toDrop)
+					player.getWorld().dropItem(player.getEyeLocation(), meta);
 
-					player.getInventory().clear();
-					player.teleport(areaHandler.getWaitRoomSpawn());
-				}
+				player.getInventory().clear();
+				player.teleport(areaHandler.getWaitRoomSpawn());
+			}
 			ArrayList<RunsafePlayer> ingame = getIngamePlayers();
 
 			if (ingame.size() == 1)
@@ -77,24 +74,20 @@ public class PlayerHandler
 	public boolean isIngame(RunsafePlayer player)
 	{
 		String playerName = player.getName();
-		return areaHandler.isInGameWorld(player) && playerData.containsKey(playerName) && !playerData.get(playerName) && player.isOnline();
+		return areaHandler.isInGameWorld(player) && playerData.containsKey(playerName) && !playerData.get(playerName);
 	}
 
 
 	public void addPlayer(RunsafePlayer player)
 	{
-		if(player.isOnline())
-		{
 			playerData.put(player.getName(), false);
     	scoreboardHandler.addScoreboard(player);
-		}
 	}
 
 	public void addPlayers(ArrayList<RunsafePlayer> players)
 	{
 		for (RunsafePlayer player : players)
-			if(player.isOnline())
-				addPlayer(player);
+			addPlayer(player);
 	}
 
 	public void teleportAllPlayers(RunsafeLocation location)
@@ -113,7 +106,6 @@ public class PlayerHandler
 
 	public void teleport(RunsafePlayer player, RunsafeLocation location)
 	{
-		if(player.isOnline())
 			player.teleport(location);
 	}
 
@@ -134,8 +126,6 @@ public class PlayerHandler
 
 	public void setUpPlayer(RunsafePlayer player)
 	{
-		if(player.isOnline())
-		{
 			player.setGameMode(GameMode.SURVIVAL);
 			equipmentHandler.equip(player);
 			player.setSaturation(10f);
@@ -143,7 +133,6 @@ public class PlayerHandler
 			player.setFoodLevel(20);
 			player.removeBuffs();
 			Buff.Resistance.Damage.amplification(2).duration(6).applyTo(player);
-		}
 	}
 
 	public void reset()
@@ -209,11 +198,7 @@ public class PlayerHandler
 	public void unEquip(RunsafePlayer player)
 	{
 		if(player == null) return;
-		console.fine("Unequiping:" + player.getName());
-		console.fine("Online: " + player.isOnline());
-		if(player.isOnline())
-			player.getInventory().clear();
-		console.fine("Unequipped!");
+		player.getInventory().clear();
 	}
 
 	public void end()

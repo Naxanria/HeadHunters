@@ -22,7 +22,6 @@ public class PlayerRespawn implements IPlayerRespawn
 		{
 			playerHandler.setUpPlayer(player);
 			player.teleport(areaHandler.getSafeLocation());
-			player.removeBuffs();
 			return areaHandler.getSafeLocation();
 		}
 		return null;
