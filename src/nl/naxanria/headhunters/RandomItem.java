@@ -52,16 +52,6 @@ public class RandomItem
 		tear.setDisplayName("§6Feed On their Tears");
 		tear.addLore("Right click to teleport everyone to you, and you away safely.");
 
-		RunsafeMeta woodTumbler = Item.Combat.Sword.Wood.getItem();
-		woodTumbler.setDisplayName("§6Wood Tumbler");
-		woodTumbler.setDurability((byte) 57);
-		Enchant.Knockback.power(10).applyTo(woodTumbler);
-
-        RunsafeMeta fishingrod = Item.Tool.FishingRod.getItem();
-        fishingrod.setDisplayName("§6Un-Controller");
-        //todo: lore text
-
-        //itemMap.put(fishingrod, 1);
 		itemMap.put(apple, 10);
 		itemMap.put(sugar, 9);
 		itemMap.put(slimeBall, 5);
@@ -70,7 +60,6 @@ public class RandomItem
 		itemMap.put(rod, 5);
 		itemMap.put(sack, 8);
 		itemMap.put(tear, 1);
-		//itemMap.put(woodTumbler, 3);
 
 		for (RunsafeMeta item : itemMap.keySet())
 			for (int i = 0; i < itemMap.get(item); i++)
