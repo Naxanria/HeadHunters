@@ -2,6 +2,7 @@ package nl.naxanria.headhunters;
 
 
 import nl.naxanria.headhunters.database.WaitRoomRepository;
+import nl.naxanria.headhunters.event.custom.CustomHeadhuntersVictory;
 import nl.naxanria.headhunters.handler.AreaHandler;
 import nl.naxanria.headhunters.handler.PlayerHandler;
 import nl.naxanria.headhunters.handler.ScoreboardHandler;
@@ -19,7 +20,6 @@ import no.runsafe.framework.text.ConsoleColour;
 import nl.naxanria.headhunters.database.AreaRepository;
 import no.runsafe.worldguardbridge.WorldGuardInterface;
 import org.bukkit.GameMode;
-import org.bukkit.scoreboard.ScoreboardManager;
 
 import java.util.ArrayList;
 
@@ -334,7 +334,10 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 		console.fine("checking for winner");
 		RunsafePlayer winPlayer = playerHandler.getCurrentLeader();
 		if (winPlayer != null)
+		{
 			server.broadcastMessage(String.format(Constants.GAME_WON, winPlayer.getPrettyName()));
+			new CustomHeadhuntersVictory(winPlayer).Fire();
+		}
 		end();
 		playerHandler.reset();
 	}
