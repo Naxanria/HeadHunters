@@ -5,6 +5,7 @@ import nl.naxanria.headhunters.Core;
 import nl.naxanria.headhunters.Util;
 import nl.naxanria.headhunters.database.AreaRepository;
 import nl.naxanria.headhunters.database.WaitRoomRepository;
+import no.runsafe.framework.api.command.argument.RequiredArgument;
 import no.runsafe.framework.api.command.player.PlayerCommand;
 import no.runsafe.framework.minecraft.player.RunsafePlayer;
 import no.runsafe.framework.text.ChatColour;
@@ -14,19 +15,18 @@ import no.runsafe.worldguardbridge.WorldGuardInterface;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CommandSetCombatArea extends PlayerCommand
 {
 	public CommandSetCombatArea(Core core, AreaHandler areaHandler, WorldGuardInterface worldGuardInterface,
 															AreaRepository areaRepository)
 	{
-		super("combatarea", "Adds or removes the WorldGuard region you are in as a combat area.", "headhunters.regions.modify.areas", "p");
+		super("combatarea", "Adds or removes the WorldGuard region you are in as a combat area.", "headhunters.regions.modify.areas", new RequiredArgument("p"));
 		this.core = core;
 		this.worldGuardInterface = worldGuardInterface;
 		this.areaHandler = areaHandler;
 		this.areaRepository = areaRepository;
-
-		this.captureTail();
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class CommandSetCombatArea extends PlayerCommand
 	}
 
 	@Override
-	public String OnExecute(RunsafePlayer player, HashMap<String, String> parameters)
+	public String OnExecute(RunsafePlayer player, Map<String, String> parameters)
 	{
 		boolean add;
 

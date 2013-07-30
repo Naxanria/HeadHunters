@@ -7,6 +7,7 @@ import nl.naxanria.headhunters.Constants;
 import nl.naxanria.headhunters.Core;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CommandEnable extends ExecutableCommand
 {
@@ -17,7 +18,7 @@ public class CommandEnable extends ExecutableCommand
 	}
 
 	@Override
-	public String OnExecute(ICommandExecutor executor, HashMap<String, String> parameters)
+	public String OnExecute(ICommandExecutor executor, Map<String, String> parameters)
 	{
 		if (this.core.enable())
 			return "Headhunters " + ChatColour.GREEN + "enabled";
@@ -27,4 +28,5 @@ public class CommandEnable extends ExecutableCommand
 	}
 
 	private final Core core;
+
 }

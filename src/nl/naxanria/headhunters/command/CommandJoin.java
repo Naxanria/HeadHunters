@@ -5,6 +5,7 @@ import no.runsafe.framework.minecraft.player.RunsafePlayer;
 import nl.naxanria.headhunters.Core;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CommandJoin extends PlayerCommand
 {
@@ -15,7 +16,7 @@ public class CommandJoin extends PlayerCommand
 	}
 
 	@Override
-	public String OnExecute(RunsafePlayer executor, HashMap<String, String> parameters)
+	public String OnExecute(RunsafePlayer executor, Map<String, String> parameters)
 	{
 		return this.core.join(executor);
 	}

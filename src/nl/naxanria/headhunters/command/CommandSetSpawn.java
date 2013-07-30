@@ -6,6 +6,7 @@ import no.runsafe.framework.api.command.player.PlayerCommand;
 import no.runsafe.framework.minecraft.player.RunsafePlayer;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CommandSetSpawn extends PlayerCommand
 {
@@ -16,7 +17,7 @@ public class CommandSetSpawn extends PlayerCommand
 	}
 
 	@Override
-	public String OnExecute(RunsafePlayer player, HashMap<String, String> parameters)
+	public String OnExecute(RunsafePlayer player, Map<String, String> parameters)
 	{
 		areaHandler.setWaitRoomSpawn(player.getLocation());
 		return "Successfully set spawn";

@@ -23,7 +23,7 @@ public class BlockBreak implements IBlockBreakEvent
 		if (eventPlayer.getWorld().getName().equalsIgnoreCase(playerHandler.getWorldName()))
 			if (areaHandler.isInCombatRegion(eventPlayer.getLocation()))
 				if (core.isEnabled() || !eventPlayer.hasPermission("headhunters.build"))
-					event.setCancelled(true);
+					event.cancel();
 	}
 
 	private final PlayerHandler playerHandler;

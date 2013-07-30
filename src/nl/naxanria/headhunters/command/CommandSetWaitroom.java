@@ -9,8 +9,8 @@ import nl.naxanria.headhunters.handler.AreaHandler;
 import no.runsafe.worldguardbridge.WorldGuardInterface;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CommandSetWaitroom extends PlayerCommand
 {
@@ -23,10 +23,14 @@ public class CommandSetWaitroom extends PlayerCommand
 		this.waitRoomRepository = waitRoomRepository;
 	}
 
-	@Override
-	public String OnExecute(RunsafePlayer executor, HashMap<String, String> parameters)
-	{
 
+	private final AreaHandler areaHandler;
+	private final WorldGuardInterface worldGuardInterface;
+	private final AreaRepository areaRepository;
+	private final WaitRoomRepository waitRoomRepository;
+
+	@Override
+	public String OnExecute(RunsafePlayer executor, Map<String, String> parameters) {
 		ArrayList<String> areas = areaRepository.getAreas();
 		List<String> region = worldGuardInterface.getRegionsAtLocation(executor.getLocation());
 		if (region.size() == 0)
@@ -43,9 +47,4 @@ public class CommandSetWaitroom extends PlayerCommand
 		areaHandler.setWaitRoom(thisRegion, executor.getWorld());
 		return "&aSuccesfully set headhunters waitroom as &f" + thisRegion;
 	}
-
-	private final AreaHandler areaHandler;
-	private final WorldGuardInterface worldGuardInterface;
-	private final AreaRepository areaRepository;
-	private final WaitRoomRepository waitRoomRepository;
 }

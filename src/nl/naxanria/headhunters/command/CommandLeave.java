@@ -5,6 +5,7 @@ import no.runsafe.framework.minecraft.player.RunsafePlayer;
 import nl.naxanria.headhunters.handler.PlayerHandler;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CommandLeave extends PlayerCommand
 {
@@ -16,7 +17,7 @@ public class CommandLeave extends PlayerCommand
 	}
 
 	@Override
-	public String OnExecute(RunsafePlayer executor, HashMap<String, String> parameters)
+	public String OnExecute(RunsafePlayer executor, Map<String, String> parameters)
 	{
 		playerHandler.remove(executor);
 		return null;

@@ -6,6 +6,7 @@ import no.runsafe.framework.api.command.ICommandExecutor;
 import no.runsafe.framework.text.ChatColour;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CommandDisable extends ExecutableCommand
 {
@@ -16,11 +17,12 @@ public class CommandDisable extends ExecutableCommand
 	}
 
 	@Override
-	public String OnExecute(ICommandExecutor executor, HashMap<String, String> parameters)
+	public String OnExecute(ICommandExecutor executor, Map<String, String> parameters)
 	{
 		this.core.disable();
 		return "Headhunters " + ChatColour.RED + "disabled";
 	}
 
 	private final Core core;
+
 }

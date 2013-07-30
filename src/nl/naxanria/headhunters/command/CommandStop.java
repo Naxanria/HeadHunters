@@ -4,7 +4,7 @@ import nl.naxanria.headhunters.Core;
 import no.runsafe.framework.api.command.player.PlayerCommand;
 import no.runsafe.framework.minecraft.player.RunsafePlayer;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public class CommandStop extends PlayerCommand
 {
@@ -15,7 +15,7 @@ public class CommandStop extends PlayerCommand
 	}
 
 	@Override
-	public String OnExecute(RunsafePlayer executor, HashMap<String, String> parameters)
+	public String OnExecute(RunsafePlayer executor, Map<String, String> parameters)
 	{
 		this.core.stop(executor);
 		return null;

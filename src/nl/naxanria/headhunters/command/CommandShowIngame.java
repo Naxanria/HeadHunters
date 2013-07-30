@@ -9,6 +9,7 @@ import org.bukkit.craftbukkit.libs.joptsimple.internal.Strings;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CommandShowIngame extends PlayerCommand
 {
@@ -19,7 +20,7 @@ public class CommandShowIngame extends PlayerCommand
 	}
 
 	@Override
-	public String OnExecute(RunsafePlayer executor, HashMap<String, String> parameters)
+	public String OnExecute(RunsafePlayer executor, Map<String, String> parameters)
 	{
 		List<String> players = new ArrayList<String>();
 		for (RunsafePlayer player : playerHandler.getIngamePlayers())

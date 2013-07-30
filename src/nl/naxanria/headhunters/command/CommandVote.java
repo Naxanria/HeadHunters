@@ -7,7 +7,7 @@ import nl.naxanria.headhunters.Constants;
 import nl.naxanria.headhunters.Core;
 import nl.naxanria.headhunters.handler.VoteHandler;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public class CommandVote extends PlayerCommand
 {
@@ -20,7 +20,7 @@ public class CommandVote extends PlayerCommand
 	}
 
 	@Override
-	public String OnExecute(RunsafePlayer executor, HashMap<String, String> parameters)
+	public String OnExecute(RunsafePlayer executor, Map<String, String> parameters)
 	{
 		if (!core.isEnabled())
 			return Constants.ERROR_COLOR + "Headhunters is disabled";

@@ -10,6 +10,7 @@ import org.bukkit.craftbukkit.libs.joptsimple.internal.Strings;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class CommandInfo extends ExecutableCommand
 {
@@ -22,7 +23,7 @@ public class CommandInfo extends ExecutableCommand
 	}
 
 	@Override
-	public String OnExecute(ICommandExecutor executor, HashMap<String, String> parameters)
+	public String OnExecute(ICommandExecutor executor, Map<String, String> parameters)
 	{
 		ArrayList<String> info = new ArrayList<String>();
 		if (core.isEnabled())

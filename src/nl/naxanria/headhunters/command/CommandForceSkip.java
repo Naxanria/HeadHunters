@@ -3,6 +3,7 @@ package nl.naxanria.headhunters.command;
 import nl.naxanria.headhunters.Constants;
 import nl.naxanria.headhunters.Core;
 import nl.naxanria.headhunters.handler.VoteHandler;
+import no.runsafe.framework.api.command.argument.RequiredArgument;
 import no.runsafe.framework.api.command.player.PlayerCommand;
 import no.runsafe.framework.minecraft.player.RunsafePlayer;
 import nl.naxanria.headhunters.handler.AreaHandler;
@@ -10,12 +11,13 @@ import nl.naxanria.headhunters.handler.AreaHandler;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CommandForceSkip extends PlayerCommand
 {
 	public CommandForceSkip(AreaHandler areaHandler, VoteHandler voteHandler, Core core)
 	{
-		super("forceskip", "skips the current map for another one", "headhunters.game-control.forceskip", "map");
+		super("forceskip", "skips the current map for another one", "headhunters.game-control.forceskip", new RequiredArgument("map"));
 		this.core = core;
 		this.areaHandler = areaHandler;
 		this.voteHandler = voteHandler;
@@ -32,7 +34,7 @@ public class CommandForceSkip extends PlayerCommand
 
 
 	@Override
-	public String OnExecute(RunsafePlayer executor, HashMap<String, String> parameters)
+	public String OnExecute(RunsafePlayer executor, Map<String, String> parameters)
 	{
 		if (core.isEnabled())
 		{
