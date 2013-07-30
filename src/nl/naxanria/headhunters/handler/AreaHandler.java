@@ -1,7 +1,5 @@
 package nl.naxanria.headhunters.handler;
 
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
-
 import nl.naxanria.headhunters.SimpleArea;
 import nl.naxanria.headhunters.Util;
 import no.runsafe.framework.api.IConfiguration;
@@ -13,6 +11,7 @@ import no.runsafe.framework.minecraft.entity.RunsafeEntity;
 import no.runsafe.framework.minecraft.player.RunsafePlayer;
 import org.bukkit.GameMode;
 import org.bukkit.craftbukkit.libs.joptsimple.internal.Strings;
+import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -88,13 +87,6 @@ public class AreaHandler implements IConfigurationChanged
 		return areas.get(currentArea).safeLocation();
 	}
 
-	public void setWorld(String world)
-	{
-		this.world = RunsafeServer.Instance.getWorld(world);
-		this.configuration.setConfigValue("world", world);
-		this.configuration.save();
-	}
-
 	public RunsafeWorld getWorld()
 	{
 		return world;
@@ -145,22 +137,17 @@ public class AreaHandler implements IConfigurationChanged
 					entity.remove();
 	}
 
-    public boolean initWaitRoom(String region)
+    public boolean initWaitRoom(SimpleArea waitRoom)
     {
-        if(region == null)
-            return false;
-        ProtectedRegion pRegion = SimpleArea.getWorldGuardInterface().getRegion(world, region);
-        if(pRegion == null)
-            return false;
 
-        waitRoom = new SimpleArea(world, pRegion);
+        this.waitRoom = waitRoom;
 
         return true;
     }
 
-	public void setWaitRoom(String region)
+	public void setWaitRoom(String region, RunsafeWorld world)
 	{
-		if (waitRoom.getRegionName().equalsIgnoreCase(region))
+		if (waitRoom != null && waitRoom.getRegionName().equalsIgnoreCase(region))
 			return;
 		waitRoom = new SimpleArea(world, region);
 	}
@@ -180,9 +167,9 @@ public class AreaHandler implements IConfigurationChanged
 		return waitroomSpawn;
 	}
 
-	public ArrayList<RunsafePlayer> getWaitRoomPlayers()
+	public String getWaitRoomName()
 	{
-		return waitRoom.getPlayers();
+		return waitRoom.getRegionName();
 	}
 
 	public ArrayList<RunsafePlayer> getWaitRoomPlayers(GameMode mode)
@@ -196,6 +183,7 @@ public class AreaHandler implements IConfigurationChanged
 		configuration.setConfigValue("waitingroomspawn.x", location.getBlockX());
 		configuration.setConfigValue("waitingroomspawn.y", location.getBlockY());
 		configuration.setConfigValue("waitingroomspawn.z", location.getBlockZ());
+		configuration.setConfigValue("waitingroom-world", location.getWorld().getName());
 		configuration.save();
 	}
 
@@ -204,14 +192,13 @@ public class AreaHandler implements IConfigurationChanged
 	{
 		this.configuration = configuration;
 		world = RunsafeServer.Instance.getWorld(configuration.getConfigValueAsString("world"));
-		setWaitRoomSpawn(
-			new RunsafeLocation(
-				world,
+
+		waitroomSpawn = new RunsafeLocation(
+				RunsafeServer.Instance.getWorld(configuration.getConfigValueAsString("waitingroom-world")),
 				configuration.getConfigValueAsDouble("waitingroomspawn.x"),
 				configuration.getConfigValueAsDouble("waitingroomspawn.y"),
 				configuration.getConfigValueAsDouble("waitingroomspawn.z")
-			)
-		);
+			);
 	}
 
 	private final HashMap<Integer, SimpleArea> areas = new HashMap<Integer, SimpleArea>();
@@ -222,5 +209,6 @@ public class AreaHandler implements IConfigurationChanged
 	private RunsafeWorld world;
 	private SimpleArea waitRoom;
 	private RunsafeLocation waitroomSpawn;
+
 
 }

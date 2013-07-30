@@ -1,10 +1,12 @@
 package nl.naxanria.headhunters.database;
 
+import nl.naxanria.headhunters.SimpleArea;
 import no.runsafe.framework.api.IOutput;
 import no.runsafe.framework.api.database.IDatabase;
 import no.runsafe.framework.api.database.IRow;
 import no.runsafe.framework.api.database.Repository;
 import no.runsafe.framework.internal.database.Set;
+import no.runsafe.framework.minecraft.RunsafeServer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,16 +38,19 @@ public class WaitRoomRepository extends Repository
 			")";
 		queries.add(query);
 		exec.put(1, queries);
+		queries = new ArrayList<String>();
+		queries.add("ALTER TABLE  `headhunters_waitroom` ADD  `WORLD` VARCHAR( 128 ) NOT NULL");
+		exec.put(2, queries);
 		return exec;
 	}
 
-	public String getWaitRoom()
+	public SimpleArea getWaitRoom()
 	{
-		String query = "SELECT areaname FROM headhunters_waitroom";
+		String query = "SELECT areaname,world FROM headhunters_waitroom";
 		IRow row = database.QueryRow(query);
 		if (row == null || row == Set.Empty)
             return null;
-        return row.String("AREANAME");
+        return new SimpleArea(row.World("WORLD"), row.String("AREANAME"));
 	}
 
 	private void delWaitRoom()
@@ -54,9 +59,9 @@ public class WaitRoomRepository extends Repository
 		database.Execute(query);
 	}
 
-	public void setWaitRoom(String name)
+	public void setWaitRoom(String name, String world)
 	{
-		String query = String.format("INSERT INTO headhunters_waitroom (`AREANAME`) VALUES ('%s');", name);
+		String query = String.format("INSERT INTO headhunters_waitroom (`AREANAME`, `WORLD`) VALUES ('%s', '%s');", name, world);
 		delWaitRoom();
 		database.Update(query);
 	}

@@ -18,14 +18,14 @@ import java.util.List;
 public class CommandSetCombatArea extends PlayerCommand
 {
 	public CommandSetCombatArea(Core core, AreaHandler areaHandler, WorldGuardInterface worldGuardInterface,
-															AreaRepository areaRepository, WaitRoomRepository waitRoomRepository)
+															AreaRepository areaRepository)
 	{
 		super("combatarea", "Adds or removes the WorldGuard region you are in as a combat area.", "headhunters.regions.modify.areas", "p");
 		this.core = core;
 		this.worldGuardInterface = worldGuardInterface;
 		this.areaHandler = areaHandler;
 		this.areaRepository = areaRepository;
-		this.waitRoomRepository = waitRoomRepository;
+
 		this.captureTail();
 	}
 
@@ -73,8 +73,8 @@ public class CommandSetCombatArea extends PlayerCommand
 			ArrayList<String> areas = areaRepository.getAreas();
 			String thisRegion = regions.get(0);
 
-			String waitroom = waitRoomRepository.getWaitRoom();
-			if (waitroom.equalsIgnoreCase(thisRegion))
+
+			if (areaHandler.getWaitRoomName().equalsIgnoreCase(thisRegion))
 				return Constants.ERROR_COLOR + "This region is registered as the waitroom";
 
 			if (add)
@@ -109,6 +109,5 @@ public class CommandSetCombatArea extends PlayerCommand
 	private final Core core;
 	private final WorldGuardInterface worldGuardInterface;
 	private final AreaHandler areaHandler;
-	private final WaitRoomRepository waitRoomRepository;
 	private final AreaRepository areaRepository;
 }

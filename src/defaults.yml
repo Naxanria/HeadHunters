@@ -1,5 +1,5 @@
 enabled: false
-world: world
+world: headhunters
 waittime: 120
 runtime: 900
 winamount: 50
@@ -7,6 +7,7 @@ min-players: 2
 vote:
   min-percent: 60
   min-votes: 3
+waitingroom-world: headhunters
 waitingroomspawn:
   x: 0
   y: 0

@@ -1,6 +1,5 @@
 package nl.naxanria.headhunters.command;
 
-import nl.naxanria.headhunters.Constants;
 import nl.naxanria.headhunters.Util;
 import nl.naxanria.headhunters.database.AreaRepository;
 import nl.naxanria.headhunters.database.WaitRoomRepository;
@@ -27,8 +26,6 @@ public class CommandSetWaitroom extends PlayerCommand
 	@Override
 	public String OnExecute(RunsafePlayer executor, HashMap<String, String> parameters)
 	{
-		if (!areaHandler.isInGameWorld(executor))
-			return Constants.ERROR_COLOR + "Move to the correct world";
 
 		ArrayList<String> areas = areaRepository.getAreas();
 		List<String> region = worldGuardInterface.getRegionsAtLocation(executor.getLocation());
@@ -42,8 +39,8 @@ public class CommandSetWaitroom extends PlayerCommand
 		if (Util.arrayListContainsIgnoreCase(areas, thisRegion))
 			return "Region is registered as a combat region";
 
-		waitRoomRepository.setWaitRoom(thisRegion);
-		areaHandler.setWaitRoom(thisRegion);
+		waitRoomRepository.setWaitRoom(thisRegion, executor.getWorld().getName());
+		areaHandler.setWaitRoom(thisRegion, executor.getWorld());
 		return "&aSuccesfully set headhunters waitroom as &f" + thisRegion;
 	}
 
