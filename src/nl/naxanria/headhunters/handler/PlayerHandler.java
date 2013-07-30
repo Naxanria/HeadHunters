@@ -131,7 +131,7 @@ public class PlayerHandler
 			player.setGameMode(GameMode.SURVIVAL);
 			equipmentHandler.equip(player);
 			player.setSaturation(10f);
-			player.setHealth(20);
+			player.setHealth(20f);
 			player.setFoodLevel(20);
 			player.removeBuffs();
 			Buff.Resistance.Damage.amplification(2).duration(6).applyTo(player);
