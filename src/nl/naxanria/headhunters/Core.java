@@ -70,12 +70,12 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 		return true;
 	}
 
-    private boolean initWaitRoom()
-    {
-        return areaHandler.initWaitRoom(waitRoomRepository.getWaitRoom());
-    }
+	private boolean initWaitRoom()
+	{
+		return areaHandler.initWaitRoom(waitRoomRepository.getWaitRoom());
+	}
 
-    private int loadAreas()
+	private int loadAreas()
 	{
 		console.fine("loading areas");
 		ArrayList<String> areas = areaRepository.getAreas();
@@ -147,15 +147,15 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 		if (players.size() < minPlayers)
 		{
 			this.resetWaittime();
-			sendMessage(String.format(Constants.MSG_NOT_ENOUGH_PLAYERS, players.size(), minPlayers));
+			sendMessage(String.format(Constants.MSG_NOT_ENOUGH_PLAYERS, players.size(), minPlayers), players);
 			return;
 		}
 
 		this.gamestarted = true;
 		areaHandler.setNextAsCurrentArea();
 		playerHandler.start(players);
-		sendMessage(String.format("Map: &f%s", areaHandler.getAreaName(areaHandler.getCurrentArea())));
-		sendMessage(String.format(Constants.MSG_START_MESSAGE, playerHandler.getWinAmount()));
+		sendMessage(String.format("Map: &f%s", areaHandler.getAreaName(areaHandler.getCurrentArea())), players);
+		sendMessage(String.format(Constants.MSG_START_MESSAGE, playerHandler.getWinAmount()), players);
 	}
 
 	public void end()
@@ -194,9 +194,9 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 		this.countdownToEnd = config.getConfigValueAsInt("runtime");
 	}
 
-	public void sendMessage(String msg)
+	public void sendMessage(String msg, ArrayList<RunsafePlayer> players)
 	{
-		for (RunsafePlayer player : areaHandler.getWorld().getPlayers())
+		for (RunsafePlayer player : players)
 			player.sendColouredMessage(msg);
 	}
 
@@ -210,7 +210,7 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 				voteHandler.setCanVote(true);
 				if (voteHandler.votePass(waitingRoomPlayers.size()))
 				{
-					sendMessage(String.format(Constants.MSG_NEW_NEXT_MAP_VOTED, areaHandler.getAreaName(areaHandler.randomNextArea())));
+					sendMessage(String.format(Constants.MSG_NEW_NEXT_MAP_VOTED, areaHandler.getAreaName(areaHandler.randomNextArea())), waitingRoomPlayers);
 					voteHandler.resetVotes();
 				}
 				if (waitingRoomPlayers.size() > 1)
@@ -224,25 +224,25 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 						switch (countdownToStart)
 						{
 							case 180:
-								sendMessage(String.format(Constants.MSG_GAME_START_IN, 3, "minutes"));
+								sendMessage(String.format(Constants.MSG_GAME_START_IN, 3, "minutes"), waitingRoomPlayers);
 								break;
 							case 120:
-								sendMessage(String.format(Constants.MSG_GAME_START_IN, 2, "minutes"));
+								sendMessage(String.format(Constants.MSG_GAME_START_IN, 2, "minutes"), waitingRoomPlayers);
 								break;
 							case 60:
-								sendMessage(String.format(Constants.MSG_GAME_START_IN, 1, "minute"));
+								sendMessage(String.format(Constants.MSG_GAME_START_IN, 1, "minute"), waitingRoomPlayers);
 								break;
 							case 30:
-								sendMessage(String.format(Constants.MSG_GAME_START_IN, 30, "seconds"));
+								sendMessage(String.format(Constants.MSG_GAME_START_IN, 30, "seconds"), waitingRoomPlayers);
 								break;
 							case 20:
-								sendMessage(String.format(Constants.MSG_GAME_START_IN, 20, "seconds"));
+								sendMessage(String.format(Constants.MSG_GAME_START_IN, 20, "seconds"), waitingRoomPlayers);
 								break;
 							case 10:
-								sendMessage(String.format(Constants.MSG_GAME_START_IN, 10, "seconds"));
+								sendMessage(String.format(Constants.MSG_GAME_START_IN, 10, "seconds"), waitingRoomPlayers);
 								break;
 							case 5:
-								sendMessage(String.format(Constants.MSG_GAME_START_IN, 5, "seconds"));
+								sendMessage(String.format(Constants.MSG_GAME_START_IN, 5, "seconds"), waitingRoomPlayers);
 								break;
 						}
 					}
@@ -269,7 +269,7 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 			else
 			{
 				for (String s : playerHandler.tick())
-					sendMessage(s);
+					sendMessage(s, playerHandler.getIngamePlayers());
 
 				if (playerHandler.isWinner())
 				{
@@ -279,7 +279,7 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 
 				if (countdownToEnd % 300 == 0)
 				{
-					sendMessage(String.format(Constants.MSG_TIME_REMAINING, (countdownToEnd / 300) * 5, "minutes"));
+					sendMessage(String.format(Constants.MSG_TIME_REMAINING, (countdownToEnd / 300) * 5, "minutes"), playerHandler.getIngamePlayers());
 				}
 				else
 				{
@@ -287,25 +287,25 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 					switch (countdownToEnd)
 					{
 						case 180:
-							sendMessage(String.format(Constants.MSG_TIME_REMAINING, 3, "minutes"));
+							sendMessage(String.format(Constants.MSG_TIME_REMAINING, 3, "minutes"), playerHandler.getIngamePlayers());
 							break;
 						case 120:
-							sendMessage(String.format(Constants.MSG_TIME_REMAINING, 2, "minutes"));
+							sendMessage(String.format(Constants.MSG_TIME_REMAINING, 2, "minutes"), playerHandler.getIngamePlayers());
 							break;
 						case 60:
-							sendMessage(String.format(Constants.MSG_TIME_REMAINING, 1, "minute"));
+							sendMessage(String.format(Constants.MSG_TIME_REMAINING, 1, "minute"), playerHandler.getIngamePlayers());
 							break;
 						case 30:
-							sendMessage(String.format(Constants.MSG_TIME_REMAINING, 30, "seconds"));
+							sendMessage(String.format(Constants.MSG_TIME_REMAINING, 30, "seconds"), playerHandler.getIngamePlayers());
 							break;
 						case 20:
-							sendMessage(String.format(Constants.MSG_TIME_REMAINING, 20, "seconds"));
+							sendMessage(String.format(Constants.MSG_TIME_REMAINING, 20, "seconds"), playerHandler.getIngamePlayers());
 							break;
 						case 10:
-							sendMessage(String.format(Constants.MSG_TIME_REMAINING, 10, "seconds"));
+							sendMessage(String.format(Constants.MSG_TIME_REMAINING, 10, "seconds"), playerHandler.getIngamePlayers());
 							break;
 						case 5:
-							sendMessage(String.format(Constants.MSG_TIME_REMAINING, 5, "seconds"));
+							sendMessage(String.format(Constants.MSG_TIME_REMAINING, 5, "seconds"), playerHandler.getIngamePlayers());
 							break;
 					}
 				}
@@ -363,7 +363,7 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 		if (gamestarted)
 		{
 			winner();
-			sendMessage(String.format(Constants.MSG_GAME_STOPPED, executor.getPrettyName()));
+			sendMessage(String.format(Constants.MSG_GAME_STOPPED, executor.getPrettyName()), playerHandler.getIngamePlayers());
 		}
 	}
 

@@ -6,12 +6,14 @@ import nl.naxanria.headhunters.handler.PlayerHandler;
 import nl.naxanria.headhunters.RandomItem;
 import no.runsafe.framework.api.IScheduler;
 import no.runsafe.framework.api.event.player.IPlayerDeathEvent;
+import no.runsafe.framework.internal.packets.PacketHelper;
 import no.runsafe.framework.minecraft.Item;
 import no.runsafe.framework.minecraft.event.player.RunsafePlayerDeathEvent;
 import no.runsafe.framework.minecraft.item.meta.RunsafeMeta;
 import no.runsafe.framework.minecraft.player.RunsafePlayer;
 import org.bukkit.craftbukkit.v1_6_R2.entity.CraftPlayer;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class PlayerDeath implements IPlayerDeathEvent
@@ -50,6 +52,8 @@ public class PlayerDeath implements IPlayerDeathEvent
 				player.getEyeLocation(),
 				heads
 			);
+
+
 			//autorespawning
 			scheduler.startSyncTask(new Runnable()
 			{
@@ -59,6 +63,17 @@ public class PlayerDeath implements IPlayerDeathEvent
 					Packet205ClientCommand packet205ClientCommand = new Packet205ClientCommand();
 					packet205ClientCommand.a = 1;
 					((CraftPlayer) player.getRawPlayer()).getHandle().playerConnection.a(packet205ClientCommand);
+
+						// not using till it is improved
+//					HashMap<String, Object> data = new HashMap<String, Object>();
+//					data.put("a", (int) 1);
+//
+//					try {
+//						player.sendPacket(PacketHelper.stuffPacket(PacketHelper.getPacket("Packet205ClientCommand"), data));
+//					} catch (Exception e) {
+//						e.printStackTrace();
+//					}
+
 				}
 			}, 10L);
 
