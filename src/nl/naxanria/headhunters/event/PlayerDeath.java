@@ -2,12 +2,14 @@ package nl.naxanria.headhunters.event;
 
 import net.minecraft.server.v1_6_R2.Packet205ClientCommand;
 import nl.naxanria.headhunters.Core;
+import nl.naxanria.headhunters.Util;
 import nl.naxanria.headhunters.handler.PlayerHandler;
 import nl.naxanria.headhunters.RandomItem;
 import no.runsafe.framework.api.IScheduler;
 import no.runsafe.framework.api.event.player.IPlayerDeathEvent;
 import no.runsafe.framework.internal.packets.PacketHelper;
 import no.runsafe.framework.minecraft.Item;
+import no.runsafe.framework.minecraft.RunsafeServer;
 import no.runsafe.framework.minecraft.event.player.RunsafePlayerDeathEvent;
 import no.runsafe.framework.minecraft.item.meta.RunsafeMeta;
 import no.runsafe.framework.minecraft.player.RunsafePlayer;
@@ -39,14 +41,16 @@ public class PlayerDeath implements IPlayerDeathEvent
 				killer.setHealth(Math.min(killer.getHealth() + 4, 20));
 
 			event.setDroppedXP(0);
-			int amount = core.amountHeads(event.getEntity());
 			List<RunsafeMeta> items = event.getDrops();
+			int amount = Util.amountMaterial(items, Item.Decoration.Head.Human.getItem());
+
 			List<RunsafeMeta> toDrop = randomItem.getCleanedDrops(items);
 			items.clear();
 			items.addAll(toDrop);
 			items.add(randomItem.get());
 			event.setDrops(items);
 			RunsafeMeta heads = Item.Decoration.Head.Human.getItem();
+
 			heads.setAmount(amount + 1);
 			player.getWorld().dropItem(
 				player.getEyeLocation(),

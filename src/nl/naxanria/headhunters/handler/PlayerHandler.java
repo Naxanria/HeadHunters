@@ -114,8 +114,8 @@ public class PlayerHandler
 	{
 		addPlayers(players);
 		unEquipAll();
-		setUpPlayers();
 		teleport();
+		setUpPlayers();
 		winAmount = (int) ((players.size() / 2) + players.size() * 3.5);
 		scoreboardHandler.updateScoreBoardCaption(winAmount);
 	}

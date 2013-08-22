@@ -1,11 +1,14 @@
 package nl.naxanria.headhunters;
 
 import com.google.common.collect.Lists;
+import no.runsafe.framework.api.IDebug;
 import no.runsafe.framework.minecraft.RunsafeLocation;
+import no.runsafe.framework.minecraft.RunsafeServer;
 import no.runsafe.framework.minecraft.item.meta.RunsafeMeta;
 import no.runsafe.framework.minecraft.player.RunsafePlayer;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Util
@@ -55,12 +58,25 @@ public class Util
 		return (getRandom(0, 100) < percentage);
 	}
 
+	public static int amountMaterial(List<RunsafeMeta> items, RunsafeMeta search)
+	{
+
+		int amount = 0;
+		for (RunsafeMeta content : items)
+			if (content.is(search.getItemType()))
+				amount += content.getAmount();
+
+
+
+		return amount;
+
+	}
+
 	public static int amountMaterial(RunsafePlayer player, RunsafeMeta search)
 	{
-		int amount = 0;
-		for (RunsafeMeta content : player.getInventory().getContents())
-			if (content.getItemId() == search.getItemId()) amount += content.getAmount();
-		return amount;
+
+		return amountMaterial(player.getInventory().getContents(), search);
+
 	}
 
 	public static String fillZeros(int i)
