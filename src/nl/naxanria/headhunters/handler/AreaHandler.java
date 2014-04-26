@@ -13,6 +13,8 @@ import no.runsafe.framework.internal.extension.player.RunsafePlayer;
 import no.runsafe.framework.minecraft.RunsafeLocation;
 
 import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.craftbukkit.libs.joptsimple.internal.Strings;
 
 import java.util.ArrayList;
@@ -196,11 +198,13 @@ public class AreaHandler implements IConfigurationChanged
 		this.configuration = configuration;
 		world = server.getWorld(configuration.getConfigValueAsString("world"));
 
-		waitroomSpawn = new RunsafeLocation();
-				server.getWorld(configuration.getConfigValueAsString("waitingroom-world")),
-				configuration.getConfigValueAsDouble("waitingroomspawn.x"),
-				configuration.getConfigValueAsDouble("waitingroomspawn.y"),
-				configuration.getConfigValueAsDouble("waitingroomspawn.z")
+		waitroomSpawn = new RunsafeLocation(
+				new Location(
+					(World) server.getWorld(configuration.getConfigValueAsString("waitingroom-world")),
+					configuration.getConfigValueAsDouble("waitingroomspawn.x"),
+					configuration.getConfigValueAsDouble("waitingroomspawn.y"),
+					configuration.getConfigValueAsDouble("waitingroomspawn.z")
+				)
 			);
 	}
 
@@ -213,6 +217,5 @@ public class AreaHandler implements IConfigurationChanged
 	private SimpleArea waitRoom;
 	private ILocation waitroomSpawn;
 	private RunsafeServer server;
-
 
 }

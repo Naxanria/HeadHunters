@@ -10,7 +10,9 @@ import no.runsafe.framework.minecraft.RunsafeLocation;
 
 import no.runsafe.worldguardbridge.WorldGuardInterface;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 
 import java.util.ArrayList;
 
@@ -90,10 +92,12 @@ public class SimpleArea
 	public RunsafeLocation getCenter()
 	{
 		return new RunsafeLocation(
-			world,
-			(getMaxX() - getMinX()) / 2,
-			(getMaxY() - getMinY()) / 2,
-			(getMaxZ() - getMinY()) / 2
+				new Location(
+					(World) world,
+					(getMaxX() - getMinX()) / 2,
+					(getMaxY() - getMinY()) / 2,
+					(getMaxZ() - getMinY()) / 2
+				)
 		);
 	}
 
@@ -114,7 +118,7 @@ public class SimpleArea
 
 	public void teleportToArea(IPlayer player)
 	{
-		player.teleport(new RunsafeLocation(world, this.getMinX(), this.getMaxY() + 15, this.getMinZ()));
+		player.teleport(world, this.getMinX(), this.getMaxY() + 15, this.getMinZ());
 	}
 
 	public RunsafeLocation safeLocation()
@@ -138,7 +142,7 @@ public class SimpleArea
 				IBlock block = world.getBlockAt(x, y, z);
 				if (block.getMaterial().getType() == Material.SIGN)
 				{
-					ISign sign = (ISign) block.getBlockState();
+					ISign sign = (ISign) block;
 					if (sign.getLine(0).equalsIgnoreCase("skip"))
 						continue;
 				}
@@ -151,7 +155,7 @@ public class SimpleArea
 				{
 					air++;
 					if (foundGround && air > 1)
-						return new RunsafeLocation(world, x + 0.5, (double) y - 1, z + 0.5);
+						return new RunsafeLocation(new Location((World) world, x + 0.5, (double) y - 1, z + 0.5));
 				}
 			}
 			tries--;

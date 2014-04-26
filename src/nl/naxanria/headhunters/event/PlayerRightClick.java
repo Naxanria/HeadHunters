@@ -120,8 +120,9 @@ public class PlayerRightClick implements IPlayerRightClick
 				RunsafeMeta items = player.getItemInHand();
 				items.setAmount(items.getAmount() - 1);
 
+
 				//todo: set at correct position in hand.
-				player.getInventory().setItemInSlot(items, player.get).setItemInHand(items);
+				//player.getInventory().setItemInHand(items);
 			}
 
 			return !used;
