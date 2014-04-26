@@ -12,11 +12,12 @@ import no.runsafe.framework.api.IOutput;
 import no.runsafe.framework.api.IScheduler;
 import no.runsafe.framework.api.event.plugin.IConfigurationChanged;
 import no.runsafe.framework.api.event.plugin.IPluginEnabled;
+import no.runsafe.framework.api.player.IPlayer;
+import no.runsafe.framework.internal.extension.RunsafeServer;
 import no.runsafe.framework.minecraft.Item;
-import no.runsafe.framework.minecraft.RunsafeServer;
-import no.runsafe.framework.minecraft.player.RunsafePlayer;
+
 import no.runsafe.framework.text.ChatColour;
-import no.runsafe.framework.text.ConsoleColour;
+
 import nl.naxanria.headhunters.database.AreaRepository;
 import no.runsafe.worldguardbridge.WorldGuardInterface;
 import org.bukkit.GameMode;
@@ -56,7 +57,7 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 
 	public boolean enable()
 	{
-		console.fine("enabling");
+		console.broadcastColoured("enabling");
 		this.enabled = true;
 		if (loadAreas() != 0) return false;
 		if (areaHandler.getAmountLoadedAreas() == 0)
@@ -77,20 +78,20 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 
 	private int loadAreas()
 	{
-		console.fine("loading areas");
+		console.broadcastColoured("loading areas");
 		ArrayList<String> areas = areaRepository.getAreas();
 
 		if (areas.isEmpty())
 			return 1;
 		areaHandler.loadAreas(areas);
-        console.write("loaded " + areas.size() + "areas");
+        console.broadcastColoured("loaded " + areas.size() + "areas");
 
 		return 0;
 	}
 
 	public void disable()
 	{
-		console.fine("disabling");
+		console.broadcastColoured("disabling");
 		if (this.gamestarted)
 			this.end();
 
@@ -134,15 +135,15 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 
 	public void start()
 	{
-		console.fine("starting game");
+		console.broadcastColoured("starting game");
 		if (areaHandler.getAmountLoadedAreas() == 0)
 		{
-			console.write("Can not start headhunters game; There are no areas");
+			console.broadcastColoured("Can not start headhunters game; There are no areas");
 			disable();
 			return;
 		}
 
-		ArrayList<RunsafePlayer> players = areaHandler.getWaitRoomPlayers(GameMode.SURVIVAL);
+		ArrayList<IPlayer> players = areaHandler.getWaitRoomPlayers(GameMode.SURVIVAL);
 		int minPlayers = 2;
 		if (players.size() < minPlayers)
 		{
@@ -160,7 +161,7 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 
 	public void end()
 	{
-		console.fine("stopping game");
+		console.broadcastColoured("stopping game");
 		playerHandler.end();
 
 		areaHandler.removeEntities();
@@ -174,14 +175,14 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 	@Override
 	public void OnConfigurationChanged(IConfiguration configuration)
 	{
-		console.fine("loading config...");
+		console.broadcastColoured("loading config...");
 		this.config = configuration;
 		this.enabled = config.getConfigValueAsBoolean("enabled");
 		this.countdownToStart = config.getConfigValueAsInt("waittime");
 		this.countdownToEnd = config.getConfigValueAsInt("runtime");
 		this.voteHandler.setMinPercentage(config.getConfigValueAsInt("vote.min-percent"));
 		this.voteHandler.setMinVotes(config.getConfigValueAsInt("vote.min-votes"));
-		console.fine("finished");
+		console.broadcastColoured("finished");
 	}
 
 	private void resetWaittime()
@@ -194,9 +195,9 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 		this.countdownToEnd = config.getConfigValueAsInt("runtime");
 	}
 
-	public void sendMessage(String msg, ArrayList<RunsafePlayer> players)
+	public void sendMessage(String msg, ArrayList<IPlayer> players)
 	{
-		for (RunsafePlayer player : players)
+		for (IPlayer player : players)
 			player.sendColouredMessage(msg);
 	}
 
@@ -206,7 +207,7 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 		{
 			if (!this.gamestarted)
 			{
-				ArrayList<RunsafePlayer> waitingRoomPlayers = areaHandler.getWaitRoomPlayers(GameMode.SURVIVAL);
+				ArrayList<IPlayer> waitingRoomPlayers = areaHandler.getWaitRoomPlayers(GameMode.SURVIVAL);
 				voteHandler.setCanVote(true);
 				if (voteHandler.votePass(waitingRoomPlayers.size()))
 				{
@@ -261,7 +262,7 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 				}
 				else
 					//moving all players not in creative mode into the waitroom
-					for (RunsafePlayer p : areaHandler.getWorld().getPlayers())
+					for (IPlayer p : areaHandler.getWorld().getPlayers())
 						if (p.getGameMode() != GameMode.CREATIVE && !areaHandler.isInWaitRoom(p))
 							p.teleport(areaHandler.getWaitRoomSpawn());
 
@@ -322,7 +323,7 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 				}
 
 				// checking all players in world that are not creative mode, move them to the waiting room if not in game
-				for (RunsafePlayer p : areaHandler.getWorld().getPlayers())
+				for (IPlayer p : areaHandler.getWorld().getPlayers())
 					if (!playerHandler.isIngame(p) && p.getGameMode() != GameMode.CREATIVE && !areaHandler.isInWaitRoom(p))
 						p.teleport(areaHandler.getWaitRoomSpawn());
 			}
@@ -331,8 +332,8 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 
 	private void winner()
 	{
-		console.fine("checking for winner");
-		RunsafePlayer winPlayer = playerHandler.getCurrentLeader();
+		console.broadcastColoured("checking for winner");
+		IPlayer winPlayer = playerHandler.getCurrentLeader();
 		if (winPlayer != null)
 		{
 			server.broadcastMessage(String.format(Constants.GAME_WON, winPlayer.getPrettyName()));
@@ -342,7 +343,7 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 		playerHandler.reset();
 	}
 
-	public String join(RunsafePlayer executor)
+	public String join(IPlayer executor)
 	{
 		if (this.enabled)
 		{
@@ -358,7 +359,7 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 		return Constants.MSG_COLOR + "headhunters is not enabled";
 	}
 
-	public void stop(RunsafePlayer executor)
+	public void stop(IPlayer executor)
 	{
 		if (gamestarted)
 		{
@@ -367,7 +368,7 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 		}
 	}
 
-	public int amountHeads(RunsafePlayer player)
+	public int amountHeads(IPlayer player)
 	{
 		return Util.amountMaterial(player, Item.Decoration.Head.Human.getItem());
 	}
@@ -375,13 +376,13 @@ public class Core implements IConfigurationChanged, IPluginEnabled
 	@Override
 	public void OnPluginEnabled()
 	{
-		console.fine("enabling sequence");
+		console.broadcastColoured("enabling sequence");
 		if (this.enabled)
 			if (!enable())
 				disable();
 
-		console.writeColoured((enabled) ? ConsoleColour.GREEN + "Enabled" : ConsoleColour.RED + "Disabled");
-		console.write(String.format("loaded %d areas", areaHandler.getAmountLoadedAreas()));
+		//console.broadcastColoured((enabled) ? ConsoleColour.GREEN + "Enabled" : ConsoleColour.RED + "Disabled");
+		console.broadcastColoured(String.format("loaded %d areas", areaHandler.getAmountLoadedAreas()));
 	}
 
 	private final IOutput console;

@@ -1,12 +1,17 @@
 package nl.naxanria.headhunters.event;
 
 import nl.naxanria.headhunters.Util;
+import no.runsafe.framework.api.ILocation;
+import no.runsafe.framework.api.IWorld;
+import no.runsafe.framework.api.block.IBlock;
 import no.runsafe.framework.api.event.player.IPlayerRightClick;
+import no.runsafe.framework.api.player.IPlayer;
+import no.runsafe.framework.internal.extension.RunsafeServer;
 import no.runsafe.framework.minecraft.*;
-import no.runsafe.framework.minecraft.block.RunsafeBlock;
+
 import no.runsafe.framework.minecraft.entity.ProjectileEntity;
 import no.runsafe.framework.minecraft.item.meta.RunsafeMeta;
-import no.runsafe.framework.minecraft.player.RunsafePlayer;
+
 import nl.naxanria.headhunters.handler.AreaHandler;
 import nl.naxanria.headhunters.handler.PlayerHandler;
 import org.bukkit.Effect;
@@ -23,24 +28,24 @@ public class PlayerRightClick implements IPlayerRightClick
 	}
 
 	@Override
-	public boolean OnPlayerRightClick(RunsafePlayer player, RunsafeMeta usingItem, RunsafeBlock targetBlock)
+	public boolean OnPlayerRightClick(IPlayer player, RunsafeMeta usingItem, IBlock targetBlock)
 	{
 		int range = 5;
 		int roll = 95;
-        RunsafeWorld world = areaHandler.getWorld();
+    IWorld world = areaHandler.getWorld();
 
 		if (playerHandler.isIngame(player))
 		{
 			boolean used = false;
 			if (usingItem != null)
 			{
-				RunsafeLocation location = (targetBlock != null) ? targetBlock.getLocation() : player.getLocation();
+				ILocation location = (targetBlock != null) ? targetBlock.getLocation() : player.getLocation();
 				if (usingItem.is(Item.Miscellaneous.Slimeball))
 				{
 					world.playEffect(location, Effect.POTION_BREAK, 16426);
 
-					ArrayList<RunsafePlayer> hitPlayers = playerHandler.getIngamePlayers(location, range);
-					for (RunsafePlayer hitPlayer : hitPlayers)
+					ArrayList<IPlayer> hitPlayers = playerHandler.getPlayersInRange(location, range);
+					for (IPlayer hitPlayer : hitPlayers)
 					{
 						if (!hitPlayer.getName().equalsIgnoreCase(player.getName()))
 						{
@@ -53,8 +58,8 @@ public class PlayerRightClick implements IPlayerRightClick
 				}
 				else if (usingItem.is(Item.Brewing.MagmaCream))
 				{
-					ArrayList<RunsafePlayer> hitPlayers = playerHandler.getIngamePlayers(location, range);
-					for (RunsafePlayer hitPlayer : hitPlayers)
+					ArrayList<IPlayer> hitPlayers = playerHandler.getPlayersInRange(location, range);
+					for (IPlayer hitPlayer : hitPlayers)
 					{
 						if (!hitPlayer.getName().equalsIgnoreCase(player.getName()))
 						{
@@ -91,8 +96,8 @@ public class PlayerRightClick implements IPlayerRightClick
 				else if (usingItem.is(Item.Materials.InkSack))
 				{
       			    world.playSound(location, Sound.Environment.Splash, 1f, 1f);
-					ArrayList<RunsafePlayer> hitPlayers = playerHandler.getIngamePlayers(location, range);
-					for (RunsafePlayer hitPlayer : hitPlayers)
+					ArrayList<IPlayer> hitPlayers = playerHandler.getPlayersInRange(location, range);
+					for (IPlayer hitPlayer : hitPlayers)
 					{
 						if (!hitPlayer.getName().equalsIgnoreCase(player.getName()))
 						{
@@ -114,7 +119,9 @@ public class PlayerRightClick implements IPlayerRightClick
 			{
 				RunsafeMeta items = player.getItemInHand();
 				items.setAmount(items.getAmount() - 1);
-				player.getInventory().setItemInHand(items);
+
+				//todo: set at correct position in hand.
+				player.getInventory().setItemInSlot(items, player.get).setItemInHand(items);
 			}
 
 			return !used;

@@ -3,6 +3,7 @@ package nl.naxanria.headhunters.command;
 import nl.naxanria.headhunters.Core;
 import no.runsafe.framework.api.command.ExecutableCommand;
 import no.runsafe.framework.api.command.ICommandExecutor;
+import no.runsafe.framework.api.command.argument.IArgumentList;
 import no.runsafe.framework.text.ChatColour;
 
 import java.util.HashMap;
@@ -17,11 +18,10 @@ public class CommandDisable extends ExecutableCommand
 	}
 
 	@Override
-	public String OnExecute(ICommandExecutor executor, Map<String, String> parameters)
+	public String OnExecute(ICommandExecutor executor, IArgumentList parameters)
 	{
 		this.core.disable();
-		return "Headhunters " + ChatColour.RED + "disabled";
-	}
+		return "Headhunters " + ChatColour.RED + "disabled";	}
 
 	private final Core core;
 

@@ -1,7 +1,7 @@
 package nl.naxanria.headhunters.handler;
 
 import nl.naxanria.headhunters.database.EquipmentRepository;
-import no.runsafe.framework.minecraft.player.RunsafePlayer;
+import no.runsafe.framework.api.player.IPlayer;
 
 public class EquipmentHandler
 {
@@ -16,7 +16,7 @@ public class EquipmentHandler
 		inventory = equipmentRepository.getEquipment();
 	}
 
-	public void equip(RunsafePlayer player)
+	public void equip(IPlayer player)
 	{
 		player.getInventory().clear();
 		if(!inventory.equals(""))
@@ -24,10 +24,9 @@ public class EquipmentHandler
 		player.updateInventory();
 	}
 
-	public void unEquip(RunsafePlayer player)
+	public void unEquip(IPlayer player)
 	{
 		player.getInventory().clear();
-		player.getRaw();
 	}
 
 	private String inventory = "";

@@ -1,11 +1,9 @@
 package nl.naxanria.headhunters.command;
 
+import no.runsafe.framework.api.command.argument.IArgumentList;
 import no.runsafe.framework.api.command.player.PlayerCommand;
-import no.runsafe.framework.minecraft.player.RunsafePlayer;
+import no.runsafe.framework.api.player.IPlayer;
 import nl.naxanria.headhunters.handler.PlayerHandler;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class CommandLeave extends PlayerCommand
 {
@@ -17,11 +15,11 @@ public class CommandLeave extends PlayerCommand
 	}
 
 	@Override
-	public String OnExecute(RunsafePlayer executor, Map<String, String> parameters)
+	public String OnExecute(IPlayer executor, IArgumentList parameters)
 	{
 		playerHandler.remove(executor);
 		return null;
 	}
 
-	private final PlayerHandler playerHandler;
+	private PlayerHandler playerHandler;
 }

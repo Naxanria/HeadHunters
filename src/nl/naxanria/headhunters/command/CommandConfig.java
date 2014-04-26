@@ -5,6 +5,7 @@ import no.runsafe.framework.api.IConfiguration;
 import no.runsafe.framework.api.command.ExecutableCommand;
 import no.runsafe.framework.api.command.ICommandExecutor;
 import nl.naxanria.headhunters.Constants;
+import no.runsafe.framework.api.command.argument.IArgumentList;
 import no.runsafe.framework.api.command.argument.RequiredArgument;
 import no.runsafe.framework.api.command.argument.TrailingArgument;
 
@@ -20,16 +21,14 @@ public class CommandConfig extends ExecutableCommand
 		this.config = config;
 		this.core = core;
 	}
-
-
 	@Override
-	public String OnExecute(ICommandExecutor executor, Map<String, String> parameters)
+	public String OnExecute(ICommandExecutor executor, IArgumentList parameters)
 	{
 		if (core.isEnabled())
 			return Constants.ERROR_COLOR + "Disable headhunters first!";
 
-			String key = parameters.get("key");
-			String value = parameters.get("value");
+		String key = parameters.get("key");
+		String value = parameters.get("value");
 
 		if (config.getConfigValueAsString(key) == null)
 			return String.format("&cKey &f%s&c does not exist", key);

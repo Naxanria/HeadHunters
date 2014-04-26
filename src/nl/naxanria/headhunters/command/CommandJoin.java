@@ -1,11 +1,9 @@
 package nl.naxanria.headhunters.command;
 
+import no.runsafe.framework.api.command.argument.IArgumentList;
 import no.runsafe.framework.api.command.player.PlayerCommand;
-import no.runsafe.framework.minecraft.player.RunsafePlayer;
+import no.runsafe.framework.api.player.IPlayer;
 import nl.naxanria.headhunters.Core;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class CommandJoin extends PlayerCommand
 {
@@ -15,11 +13,11 @@ public class CommandJoin extends PlayerCommand
 		this.core = core;
 	}
 
+	private final Core core;
+
 	@Override
-	public String OnExecute(RunsafePlayer executor, Map<String, String> parameters)
+	public String OnExecute(IPlayer executor, IArgumentList parameters)
 	{
 		return this.core.join(executor);
 	}
-
-	private final Core core;
 }

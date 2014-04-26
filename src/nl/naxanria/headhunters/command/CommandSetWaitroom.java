@@ -3,14 +3,16 @@ package nl.naxanria.headhunters.command;
 import nl.naxanria.headhunters.Util;
 import nl.naxanria.headhunters.database.AreaRepository;
 import nl.naxanria.headhunters.database.WaitRoomRepository;
+import no.runsafe.framework.api.command.argument.IArgumentList;
 import no.runsafe.framework.api.command.player.PlayerCommand;
-import no.runsafe.framework.minecraft.player.RunsafePlayer;
+import no.runsafe.framework.api.player.IPlayer;
+
 import nl.naxanria.headhunters.handler.AreaHandler;
 import no.runsafe.worldguardbridge.WorldGuardInterface;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
 
 public class CommandSetWaitroom extends PlayerCommand
 {
@@ -23,14 +25,8 @@ public class CommandSetWaitroom extends PlayerCommand
 		this.waitRoomRepository = waitRoomRepository;
 	}
 
-
-	private final AreaHandler areaHandler;
-	private final WorldGuardInterface worldGuardInterface;
-	private final AreaRepository areaRepository;
-	private final WaitRoomRepository waitRoomRepository;
-
 	@Override
-	public String OnExecute(RunsafePlayer executor, Map<String, String> parameters) {
+	public String OnExecute(IPlayer executor, IArgumentList parameters) {
 		ArrayList<String> areas = areaRepository.getAreas();
 		List<String> region = worldGuardInterface.getRegionsAtLocation(executor.getLocation());
 		if (region.size() == 0)
@@ -47,4 +43,10 @@ public class CommandSetWaitroom extends PlayerCommand
 		areaHandler.setWaitRoom(thisRegion, executor.getWorld());
 		return "&aSuccesfully set headhunters waitroom as &f" + thisRegion;
 	}
+
+	private final AreaHandler areaHandler;
+	private final WorldGuardInterface worldGuardInterface;
+	private final AreaRepository areaRepository;
+	private final WaitRoomRepository waitRoomRepository;
+
 }

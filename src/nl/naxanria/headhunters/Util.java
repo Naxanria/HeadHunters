@@ -1,11 +1,10 @@
 package nl.naxanria.headhunters;
 
 import com.google.common.collect.Lists;
-import no.runsafe.framework.api.IDebug;
-import no.runsafe.framework.minecraft.RunsafeLocation;
-import no.runsafe.framework.minecraft.RunsafeServer;
+import no.runsafe.framework.api.ILocation;
+import no.runsafe.framework.api.player.IPlayer;
 import no.runsafe.framework.minecraft.item.meta.RunsafeMeta;
-import no.runsafe.framework.minecraft.player.RunsafePlayer;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +71,7 @@ public class Util
 
 	}
 
-	public static int amountMaterial(RunsafePlayer player, RunsafeMeta search)
+	public static int amountMaterial(IPlayer player, RunsafeMeta search)
 	{
 
 		return amountMaterial(player.getInventory().getContents(), search);
@@ -109,5 +108,4 @@ public class Util
 	}
 
 	static final Random random = new Random(System.currentTimeMillis());
-
 }

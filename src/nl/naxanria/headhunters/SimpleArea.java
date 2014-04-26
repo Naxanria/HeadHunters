@@ -1,19 +1,22 @@
 package nl.naxanria.headhunters;
 
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import no.runsafe.framework.api.ILocation;
+import no.runsafe.framework.api.IWorld;
+import no.runsafe.framework.api.block.IBlock;
+import no.runsafe.framework.api.block.ISign;
+import no.runsafe.framework.api.player.IPlayer;
 import no.runsafe.framework.minecraft.RunsafeLocation;
-import no.runsafe.framework.minecraft.RunsafeWorld;
-import no.runsafe.framework.minecraft.block.RunsafeBlock;
-import no.runsafe.framework.minecraft.block.RunsafeSign;
-import no.runsafe.framework.minecraft.player.RunsafePlayer;
+
 import no.runsafe.worldguardbridge.WorldGuardInterface;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 
 import java.util.ArrayList;
 
 public class SimpleArea
 {
-	public SimpleArea(RunsafeWorld world, String regionName)
+	public SimpleArea(IWorld world, String regionName)
 	{
 		this.world = world;
 		this.regionName = regionName;
@@ -24,7 +27,7 @@ public class SimpleArea
 		}
 	}
 
-    public boolean pointInArea(RunsafeLocation location)
+    public boolean pointInArea(ILocation location)
 	{
 		return pointInArea(location.getBlockX(), location.getBlockY(), location.getBlockZ());
 	}
@@ -34,21 +37,21 @@ public class SimpleArea
 		return region.contains(x, y, z);
 	}
 
-	public ArrayList<RunsafePlayer> getPlayers()
+	public ArrayList<IPlayer> getPlayers()
 	{
-		ArrayList<RunsafePlayer> players = new ArrayList<RunsafePlayer>();
+		ArrayList<IPlayer> players = new ArrayList<IPlayer>();
 
-		for (RunsafePlayer player : this.world.getPlayers())
+		for (IPlayer player : this.world.getPlayers())
 			if (pointInArea(player.getLocation())) players.add(player);
 
 		return players;
 	}
 
-	public ArrayList<RunsafePlayer> getPlayers(GameMode mode)
+	public ArrayList<IPlayer> getPlayers(GameMode mode)
 	{
-		ArrayList<RunsafePlayer> players = new ArrayList<RunsafePlayer>();
+		ArrayList<IPlayer> players = new ArrayList<IPlayer>();
 
-		for (RunsafePlayer player : this.world.getPlayers())
+		for (IPlayer player : this.world.getPlayers())
 			if (pointInArea(player.getLocation()) && player.getGameMode() == mode) players.add(player);
 
 		return players;
@@ -109,7 +112,7 @@ public class SimpleArea
 		);
 	}
 
-	public void teleportToArea(RunsafePlayer player)
+	public void teleportToArea(IPlayer player)
 	{
 		player.teleport(new RunsafeLocation(world, this.getMinX(), this.getMaxY() + 15, this.getMinZ()));
 	}
@@ -132,10 +135,10 @@ public class SimpleArea
 			int air = 0;
 			for (y = minY; y < maxY - 1; y++)
 			{
-				RunsafeBlock block = world.getBlockAt(x, y, z);
-				if (block.getBlockState() instanceof RunsafeSign)
+				IBlock block = world.getBlockAt(x, y, z);
+				if (block.getMaterial().getType() == Material.SIGN)
 				{
-					RunsafeSign sign = (RunsafeSign) block.getBlockState();
+					ISign sign = (ISign) block.getBlockState();
 					if (sign.getLine(0).equalsIgnoreCase("skip"))
 						continue;
 				}
@@ -169,7 +172,7 @@ public class SimpleArea
 
   private static WorldGuardInterface worldGuardInterface;
 	private ProtectedRegion region;
-	private final RunsafeWorld world;
+	private final IWorld world;
 	private final String regionName;
 
 }

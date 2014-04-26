@@ -2,6 +2,7 @@ package nl.naxanria.headhunters.command;
 
 import no.runsafe.framework.api.command.ExecutableCommand;
 import no.runsafe.framework.api.command.ICommandExecutor;
+import no.runsafe.framework.api.command.argument.IArgumentList;
 import no.runsafe.framework.text.ChatColour;
 import nl.naxanria.headhunters.Constants;
 import nl.naxanria.headhunters.Core;
@@ -18,7 +19,7 @@ public class CommandEnable extends ExecutableCommand
 	}
 
 	@Override
-	public String OnExecute(ICommandExecutor executor, Map<String, String> parameters)
+	public String OnExecute(ICommandExecutor executor, IArgumentList parameters)
 	{
 		if (this.core.enable())
 			return "Headhunters " + ChatColour.GREEN + "enabled";
@@ -26,7 +27,5 @@ public class CommandEnable extends ExecutableCommand
 		core.disable();
 		return Constants.ERROR_COLOR + "There are no areas or no waitroom defined!";
 	}
-
 	private final Core core;
-
 }

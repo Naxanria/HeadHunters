@@ -5,12 +5,12 @@ import nl.naxanria.headhunters.handler.AreaHandler;
 import nl.naxanria.headhunters.handler.PlayerHandler;
 import no.runsafe.framework.api.command.ExecutableCommand;
 import no.runsafe.framework.api.command.ICommandExecutor;
-import no.runsafe.framework.minecraft.player.RunsafePlayer;
+import no.runsafe.framework.api.command.argument.IArgumentList;
+import no.runsafe.framework.api.player.IPlayer;
+
 import org.bukkit.craftbukkit.libs.joptsimple.internal.Strings;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class CommandInfo extends ExecutableCommand
 {
@@ -23,7 +23,7 @@ public class CommandInfo extends ExecutableCommand
 	}
 
 	@Override
-	public String OnExecute(ICommandExecutor executor, Map<String, String> parameters)
+	public String OnExecute(ICommandExecutor executor, IArgumentList parameters)
 	{
 		ArrayList<String> info = new ArrayList<String>();
 		if (core.isEnabled())
@@ -36,7 +36,7 @@ public class CommandInfo extends ExecutableCommand
 				int min = (int) Math.floor(core.getTimeToEnd() / 60);
 				int sec = core.getTimeToEnd() - min * 60;
 				info.add(String.format("Time remaining &f%s:%s", min, Util.fillZeros(sec)));
-				RunsafePlayer leader = playerHandler.getCurrentLeader();
+				IPlayer leader = playerHandler.getCurrentLeader();
 				if (leader != null) info.add(String.format("Current leader: %s", leader.getPrettyName()));
 				info.add(String.format("Heads needed: &f%d", playerHandler.getWinAmount()));
 				info.add(String.format("Current Map: &f%s", areaHandler.getAreaName(areaHandler.getCurrentArea())));
@@ -54,8 +54,9 @@ public class CommandInfo extends ExecutableCommand
 		}
 		return Constants.ERROR_COLOR + "Headhunters is disabled";
 	}
-
 	private final Core core;
 	private final PlayerHandler playerHandler;
 	private final AreaHandler areaHandler;
+
+
 }

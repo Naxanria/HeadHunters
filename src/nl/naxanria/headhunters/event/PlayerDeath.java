@@ -1,21 +1,24 @@
 package nl.naxanria.headhunters.event;
 
-import net.minecraft.server.v1_6_R2.Packet205ClientCommand;
+import net.minecraft.server.v1_7_R2.EnumClientCommand;
+import net.minecraft.server.v1_7_R2.PacketPlayInClientCommand;
+
 import nl.naxanria.headhunters.Core;
 import nl.naxanria.headhunters.Util;
 import nl.naxanria.headhunters.handler.PlayerHandler;
 import nl.naxanria.headhunters.RandomItem;
 import no.runsafe.framework.api.IScheduler;
 import no.runsafe.framework.api.event.player.IPlayerDeathEvent;
-import no.runsafe.framework.internal.packets.PacketHelper;
+
+import no.runsafe.framework.api.player.IPlayer;
+import no.runsafe.framework.internal.extension.player.RunsafePlayer;
 import no.runsafe.framework.minecraft.Item;
-import no.runsafe.framework.minecraft.RunsafeServer;
+
 import no.runsafe.framework.minecraft.event.player.RunsafePlayerDeathEvent;
 import no.runsafe.framework.minecraft.item.meta.RunsafeMeta;
-import no.runsafe.framework.minecraft.player.RunsafePlayer;
-import org.bukkit.craftbukkit.v1_6_R2.entity.CraftPlayer;
 
-import java.util.HashMap;
+import org.bukkit.craftbukkit.v1_7_R2.entity.CraftPlayer;
+
 import java.util.List;
 
 public class PlayerDeath implements IPlayerDeathEvent
@@ -36,7 +39,7 @@ public class PlayerDeath implements IPlayerDeathEvent
 
 		if (playerHandler.isIngame(player))
 		{
-			RunsafePlayer killer = player.getKiller();
+			IPlayer killer = player.getKiller();
 			if (killer != null)
 				killer.setHealth(Math.min(killer.getHealth() + 4, 20));
 
@@ -64,19 +67,11 @@ public class PlayerDeath implements IPlayerDeathEvent
 				@Override
 				public void run()
 				{
-					Packet205ClientCommand packet205ClientCommand = new Packet205ClientCommand();
-					packet205ClientCommand.a = 1;
-					((CraftPlayer) player.getRawPlayer()).getHandle().playerConnection.a(packet205ClientCommand);
 
-						// not using till it is improved
-//					HashMap<String, Object> data = new HashMap<String, Object>();
-//					data.put("a", (int) 1);
-//
-//					try {
-//						player.sendPacket(PacketHelper.stuffPacket(PacketHelper.getPacket("Packet205ClientCommand"), data));
-//					} catch (Exception e) {
-//						e.printStackTrace();
-//					}
+					PacketPlayInClientCommand packetPlayInClientCommand = new PacketPlayInClientCommand(EnumClientCommand.PERFORM_RESPAWN);
+
+					((CraftPlayer) player.getRaw()).getHandle().playerConnection.a(packetPlayInClientCommand);
+
 
 				}
 			}, 10L);

@@ -2,12 +2,10 @@ package nl.naxanria.headhunters.database;
 
 import nl.naxanria.headhunters.Util;
 import no.runsafe.framework.api.IOutput;
-import no.runsafe.framework.api.database.IDatabase;
-import no.runsafe.framework.api.database.IRow;
-import no.runsafe.framework.api.database.ISet;
-import no.runsafe.framework.api.database.Repository;
+import no.runsafe.framework.api.database.*;
 import no.runsafe.framework.internal.database.Set;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,10 +25,11 @@ public class AreaRepository extends Repository
 		return "headhunters_areas";
 	}
 
+	@Nonnull
 	@Override
-	public HashMap<Integer, List<String>> getSchemaUpdateQueries()
+	public ISchemaUpdate getSchemaUpdateQueries()
 	{
-		console.fine("AreaRepository - schema updates");
+		console.broadcastColoured("AreaRepository - schema updates");
 		HashMap<Integer, List<String>> exec = new HashMap<Integer, List<String>>();
 		String query = "CREATE TABLE IF NOT EXISTS `headhunters_areas` (\n" +
 			"  `ID` int(8) NOT NULL AUTO_INCREMENT,\n" +
@@ -39,16 +38,15 @@ public class AreaRepository extends Repository
 			"  UNIQUE KEY `AREANAME` (`AREANAME`)\n" +
 			")";
 
-		List<String> queries = new ArrayList<String>();
-		queries.add(query);
-		exec.put(1, queries);
-		return exec;
+		SchemaUpdate update = new SchemaUpdate();
+		update.addQueries(query);
+		return update;
 	}
 
 	public ArrayList<String> getAreas()
 	{
 		String query = "SELECT * FROM headhunters_areas";
-		ISet set = database.Query(query);
+		ISet set = database.query(query);
 
 		ArrayList<String> areas = new ArrayList<String>();
 
@@ -65,9 +63,9 @@ public class AreaRepository extends Repository
 			return false;
 
 		String query = String.format("INSERT INTO headhunters_areas (`ID`, `AREANAME`) VALUES (NULL, '%s');", name);
-		console.fine(String.format("Adding %s to the areas", name));
-		int id = database.Update(query);
-		console.fine(String.format("Inserted Id: %d", id));
+		console.broadcastColoured(String.format("Adding %s to the areas", name));
+		int id = database.update(query);
+		console.broadcastColoured(String.format("Inserted Id: %d", id));
 		return true;
 	}
 
@@ -77,9 +75,9 @@ public class AreaRepository extends Repository
 			return false;
 
 		String query = String.format("DELETE FROM `headhunters_areas` WHERE `AREANAME` = '%s';", name);
-		console.fine(String.format("deleting %s from the areas", name));
-		int id = database.Update(query);
-		console.fine(String.format("Removed Id: %d", id));
+		console.broadcastColoured(String.format("deleting %s from the areas", name));
+		int id = database.update(query);
+		console.broadcastColoured(String.format("Removed Id: %d", id));
 		return true;
 	}
 

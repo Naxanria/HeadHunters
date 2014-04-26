@@ -4,18 +4,23 @@ import nl.naxanria.headhunters.Constants;
 import nl.naxanria.headhunters.Core;
 import nl.naxanria.headhunters.Util;
 import nl.naxanria.headhunters.database.AreaRepository;
-import nl.naxanria.headhunters.database.WaitRoomRepository;
+
+import no.runsafe.framework.api.command.ICommandExecutor;
+import no.runsafe.framework.api.command.argument.IArgument;
+import no.runsafe.framework.api.command.argument.IArgumentList;
 import no.runsafe.framework.api.command.argument.RequiredArgument;
 import no.runsafe.framework.api.command.player.PlayerCommand;
-import no.runsafe.framework.minecraft.player.RunsafePlayer;
+import no.runsafe.framework.api.player.IPlayer;
+
 import no.runsafe.framework.text.ChatColour;
 import nl.naxanria.headhunters.handler.AreaHandler;
 import no.runsafe.worldguardbridge.WorldGuardInterface;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
+
 
 public class CommandSetCombatArea extends PlayerCommand
 {
@@ -27,27 +32,28 @@ public class CommandSetCombatArea extends PlayerCommand
 		this.worldGuardInterface = worldGuardInterface;
 		this.areaHandler = areaHandler;
 		this.areaRepository = areaRepository;
+
+		arguments = new ArrayList<IArgument>();
+		arguments.add(new RequiredArgument("add"));
+		arguments.add(new RequiredArgument("del"));
 	}
 
+	@Nonnull
 	@Override
-	public String getUsageCommandParams()
+	public String getUsageCommandParams(ICommandExecutor executor)
 	{
 		return ChatColour.YELLOW + this.getName() + "&f<" + ChatColour.YELLOW + "add " + ChatColour.RESET + "|" + ChatColour.YELLOW + " del" + ChatColour.RESET + ">";
 	}
 
+	@Nonnull
 	@Override
-	public List<String> getParameterOptions(String parameter)
+	public List<IArgument> getParameters()
 	{
-		ArrayList<String> parameterOptions = new ArrayList<String>();
-		parameterOptions.add("add");
-		parameterOptions.add("del");
-
-		return parameterOptions;
+		return arguments;
 	}
 
 	@Override
-	public String OnExecute(RunsafePlayer player, Map<String, String> parameters)
-	{
+	public String OnExecute(IPlayer player, IArgumentList parameters) {
 		boolean add;
 
 		String arg = parameters.get("p");
@@ -105,9 +111,11 @@ public class CommandSetCombatArea extends PlayerCommand
 			return Constants.ERROR_COLOR + "Please move to the correct world";
 		}
 	}
-
 	private final Core core;
 	private final WorldGuardInterface worldGuardInterface;
 	private final AreaHandler areaHandler;
 	private final AreaRepository areaRepository;
+	private ArrayList<IArgument> arguments;
+
+
 }

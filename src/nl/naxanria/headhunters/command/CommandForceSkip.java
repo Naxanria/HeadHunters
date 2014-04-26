@@ -3,15 +3,17 @@ package nl.naxanria.headhunters.command;
 import nl.naxanria.headhunters.Constants;
 import nl.naxanria.headhunters.Core;
 import nl.naxanria.headhunters.handler.VoteHandler;
+import no.runsafe.framework.api.command.argument.IArgument;
+import no.runsafe.framework.api.command.argument.IArgumentList;
+import no.runsafe.framework.api.command.argument.OptionalArgument;
 import no.runsafe.framework.api.command.argument.RequiredArgument;
 import no.runsafe.framework.api.command.player.PlayerCommand;
-import no.runsafe.framework.minecraft.player.RunsafePlayer;
+import no.runsafe.framework.api.player.IPlayer;
 import nl.naxanria.headhunters.handler.AreaHandler;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class CommandForceSkip extends PlayerCommand
 {
@@ -23,7 +25,7 @@ public class CommandForceSkip extends PlayerCommand
 		this.voteHandler = voteHandler;
 	}
 
-	@Override
+
 	public List<String> getParameterOptions(String parameter)
 	{
 		ArrayList<String> parameterOptions = new ArrayList<String>();
@@ -32,15 +34,31 @@ public class CommandForceSkip extends PlayerCommand
 		return parameterOptions;
 	}
 
+	@Nonnull
+	@Override
+	public List<IArgument> getParameters()
+	{
+		ArrayList<String> parameterOptions = new ArrayList<String>();
+		parameterOptions.addAll(areaHandler.getAvailableRegionsAsList());
+		parameterOptions.add("random");
+
+		List<IArgument> arguments = new ArrayList<IArgument>();
+		for(String option : parameterOptions)
+		{
+			arguments.add(new OptionalArgument(option));
+		}
+
+		return arguments;
+	}
 
 	@Override
-	public String OnExecute(RunsafePlayer executor, Map<String, String> parameters)
+	public String OnExecute(IPlayer executor,IArgumentList parameters)
 	{
 		if (core.isEnabled())
 		{
 			String nextMap = parameters.get("map");
 			int nextMapIndex;
-			if (nextMap.equalsIgnoreCase("random"))
+			if (nextMap != null && nextMap.equalsIgnoreCase("random"))
 				if (areaHandler.getAmountLoadedAreas() > 1)
 					areaHandler.randomNextArea();
 				else

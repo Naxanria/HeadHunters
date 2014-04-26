@@ -1,7 +1,7 @@
 package nl.naxanria.headhunters.handler;
 
 import nl.naxanria.headhunters.Constants;
-import no.runsafe.framework.minecraft.player.RunsafePlayer;
+import no.runsafe.framework.api.player.IPlayer;
 
 import java.util.ArrayList;
 
@@ -37,7 +37,7 @@ public class VoteHandler
 		votedPlayers.clear();
 	}
 
-	public String vote(RunsafePlayer player)
+	public String vote(IPlayer player)
 	{
 		if (!canVote)
 			return Constants.MSG_CANT_VOTE;

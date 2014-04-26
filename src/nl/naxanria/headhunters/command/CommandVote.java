@@ -1,13 +1,12 @@
 package nl.naxanria.headhunters.command;
 
+import no.runsafe.framework.api.command.argument.IArgumentList;
 import no.runsafe.framework.api.command.player.PlayerCommand;
-import no.runsafe.framework.minecraft.player.RunsafePlayer;
+import no.runsafe.framework.api.player.IPlayer;
 import nl.naxanria.headhunters.handler.AreaHandler;
 import nl.naxanria.headhunters.Constants;
 import nl.naxanria.headhunters.Core;
 import nl.naxanria.headhunters.handler.VoteHandler;
-
-import java.util.Map;
 
 public class CommandVote extends PlayerCommand
 {
@@ -20,8 +19,7 @@ public class CommandVote extends PlayerCommand
 	}
 
 	@Override
-	public String OnExecute(RunsafePlayer executor, Map<String, String> parameters)
-	{
+	public String OnExecute(IPlayer executor, IArgumentList parameters) {
 		if (!core.isEnabled())
 			return Constants.ERROR_COLOR + "Headhunters is disabled";
 		if (!areaHandler.isInWaitRoom(executor))
@@ -29,8 +27,8 @@ public class CommandVote extends PlayerCommand
 
 		return voteHandler.vote(executor);
 	}
-
 	private final AreaHandler areaHandler;
 	private final VoteHandler voteHandler;
 	private final Core core;
+
 }

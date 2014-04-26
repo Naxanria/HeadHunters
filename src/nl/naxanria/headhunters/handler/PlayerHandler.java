@@ -3,13 +3,15 @@ package nl.naxanria.headhunters.handler;
 import nl.naxanria.headhunters.Constants;
 import nl.naxanria.headhunters.RandomItem;
 import nl.naxanria.headhunters.Util;
+import no.runsafe.framework.api.ILocation;
 import no.runsafe.framework.api.IOutput;
+import no.runsafe.framework.api.player.IPlayer;
+import no.runsafe.framework.internal.extension.RunsafeServer;
 import no.runsafe.framework.minecraft.Buff;
 import no.runsafe.framework.minecraft.Item;
-import no.runsafe.framework.minecraft.RunsafeLocation;
-import no.runsafe.framework.minecraft.RunsafeServer;
+
 import no.runsafe.framework.minecraft.item.meta.RunsafeMeta;
-import no.runsafe.framework.minecraft.player.RunsafePlayer;
+
 import org.bukkit.GameMode;
 
 import java.util.ArrayList;
@@ -17,7 +19,7 @@ import java.util.HashMap;
 
 public class PlayerHandler
 {
-	public PlayerHandler(EquipmentHandler manager, AreaHandler areaHandler, ScoreboardHandler scoreboardHandler, RandomItem randomItem, IOutput console)
+	public PlayerHandler(EquipmentHandler manager, AreaHandler areaHandler, ScoreboardHandler scoreboardHandler, RandomItem randomItem, IOutput console, RunsafeServer server)
 	{
 		playerData = new HashMap<String, Boolean>();
 		this.equipmentHandler = manager;
@@ -25,6 +27,7 @@ public class PlayerHandler
     this.scoreboardHandler = scoreboardHandler;
 		this.randomItem = randomItem;
 		this.console = console;
+		this.server = server;
 	}
 
 	public boolean isWinner()
@@ -42,7 +45,7 @@ public class PlayerHandler
 		return areaHandler.getWorld().getName();
 	}
 
-	public void remove(RunsafePlayer player)
+	public void remove(IPlayer player)
 	{
 		if (isIngame(player))
 		{
@@ -61,7 +64,7 @@ public class PlayerHandler
 				player.getInventory().clear();
 				player.teleport(areaHandler.getWaitRoomSpawn());
 			}
-			ArrayList<RunsafePlayer> ingame = getIngamePlayers();
+			ArrayList<IPlayer> ingame = getIngamePlayers();
 
 			if (ingame.size() == 1)
 			{
@@ -71,46 +74,46 @@ public class PlayerHandler
 		}
 	}
 
-	public boolean isIngame(RunsafePlayer player)
+	public boolean isIngame(IPlayer player)
 	{
 		String playerName = player.getName();
 		return areaHandler.isInGameWorld(player) && playerData.containsKey(playerName) && !playerData.get(playerName);
 	}
 
 
-	public void addPlayer(RunsafePlayer player)
+	public void addPlayer(IPlayer player)
 	{
 		playerData.put(player.getName(), false);
 		scoreboardHandler.addScoreboard(player);
 		scoreboardHandler.updateScoreboard(player, 0);
 	}
 
-	public void addPlayers(ArrayList<RunsafePlayer> players)
+	public void addPlayers(ArrayList<IPlayer> players)
 	{
-		for (RunsafePlayer player : players)
+		for (IPlayer player : players)
 			addPlayer(player);
 	}
 
-	public void teleportAllPlayers(RunsafeLocation location)
+	public void teleportAllPlayers(ILocation location)
 	{
 		for (String playerName : playerData.keySet())
 			if (!playerData.get(playerName))
-				teleport(RunsafeServer.Instance.getPlayerExact(playerName), location);
+				teleport(server.getPlayerExact(playerName), location); //todo server
 	}
 
 	public void teleport()
 	{
 		for (String playerName : playerData.keySet())
 			if (!this.playerData.get(playerName))
-				teleport(RunsafeServer.Instance.getPlayerExact(playerName), areaHandler.getSafeLocation());
+				teleport(server.getPlayerExact(playerName), areaHandler.getSafeLocation());
 	}
 
-	public void teleport(RunsafePlayer player, RunsafeLocation location)
+	public void teleport(IPlayer player, ILocation location)
 	{
 			player.teleport(location);
 	}
 
-	public void start(ArrayList<RunsafePlayer> players)
+	public void start(ArrayList<IPlayer> players)
 	{
 		addPlayers(players);
 		unEquipAll();
@@ -123,10 +126,10 @@ public class PlayerHandler
 	public void setUpPlayers()
 	{
 		for (String playerName : playerData.keySet())
-			this.setUpPlayer(RunsafeServer.Instance.getPlayerExact(playerName));
+			this.setUpPlayer(server.getPlayerExact(playerName));
 	}
 
-	public void setUpPlayer(RunsafePlayer player)
+	public void setUpPlayer(IPlayer player)
 	{
 			player.setGameMode(GameMode.SURVIVAL);
 			equipmentHandler.equip(player);
@@ -149,12 +152,12 @@ public class PlayerHandler
 	{
 		ArrayList<String> out = new ArrayList<String>();
 		int currLAmount = 0;
-		RunsafePlayer currLeader = null;
+		IPlayer currLeader = null;
 		for (String playerName : playerData.keySet())
 		{
 			if (!this.playerData.get(playerName))
 			{
-				RunsafePlayer player = RunsafeServer.Instance.getPlayerExact(playerName);
+				IPlayer player = server.getPlayerExact(playerName);
 				int amount = Util.amountMaterial(player, Item.Decoration.Head.Human.getItem());
 				if (amount != 0 && amount > leaderAmount && amount > currLAmount)
 				{
@@ -188,10 +191,10 @@ public class PlayerHandler
 	public void unEquipAll()
 	{
 		for (String playerName : playerData.keySet())
-			this.unEquip(RunsafeServer.Instance.getPlayerExact(playerName));
+			this.unEquip(server.getPlayerExact(playerName));
 	}
 
-	public void unEquip(RunsafePlayer player)
+	public void unEquip(IPlayer player)
 	{
 		if(player == null) return;
 		player.getInventory().clear();
@@ -204,29 +207,32 @@ public class PlayerHandler
 		this.reset();
 	}
 
-	public RunsafePlayer getCurrentLeader()
+	public IPlayer getCurrentLeader()
 	{
 		return leader;
 	}
 
-	public ArrayList<RunsafePlayer> getIngamePlayers()
+	public ArrayList<IPlayer> getIngamePlayers()
 	{
-		ArrayList<RunsafePlayer> players = new ArrayList<RunsafePlayer>();
+		ArrayList<IPlayer> players = new ArrayList<IPlayer>();
 		for (String playerName : playerData.keySet())
 			if (!this.playerData.get(playerName))
-				players.add(RunsafeServer.Instance.getPlayerExact(playerName));
+				players.add(server.getPlayerExact(playerName));
 		return players;
 	}
 
-	public ArrayList<RunsafePlayer> getIngamePlayers(RunsafeLocation location, int range)
+	public ArrayList<IPlayer> getPlayersInRange(ILocation location, int range)
 	{
-		ArrayList<RunsafePlayer> players = new ArrayList<RunsafePlayer>();
+		ArrayList<IPlayer> players = new ArrayList<IPlayer>();
 		for (String playerName : playerData.keySet())
-        {
-          RunsafePlayer player = RunsafeServer.Instance.getPlayerExact(playerName);
-					if (!this.playerData.get(playerName) && location.distance(player.getLocation()) < range)
-						players.add(player);
-        }
+			if (!this.playerData.get(playerName))
+			{
+				IPlayer player = server.getPlayerExact(playerName);
+				if(player.getLocation().distance(location) < range)
+					players.add(player);
+			}
+
+
 		return players;
 	}
 
@@ -237,7 +243,8 @@ public class PlayerHandler
   private final ScoreboardHandler scoreboardHandler;
 	private final EquipmentHandler equipmentHandler;
 	private final IOutput console;
-	Boolean winner = false;
-	private RunsafePlayer leader;
+	private final RunsafeServer server;
+	boolean winner = false;
+	private IPlayer leader;
 	private int winAmount = 0;
 }

@@ -2,12 +2,13 @@ package nl.naxanria.headhunters.event;
 
 import no.runsafe.framework.api.IOutput;
 import no.runsafe.framework.api.event.player.IPlayerPickupItemEvent;
+import no.runsafe.framework.api.player.IPlayer;
 import no.runsafe.framework.minecraft.Buff;
 import no.runsafe.framework.minecraft.Item;
 import no.runsafe.framework.minecraft.entity.RunsafeItem;
 import no.runsafe.framework.minecraft.event.player.RunsafePlayerPickupItemEvent;
 import no.runsafe.framework.minecraft.item.meta.RunsafeMeta;
-import no.runsafe.framework.minecraft.player.RunsafePlayer;
+
 import nl.naxanria.headhunters.handler.PlayerHandler;
 
 public class PlayerItemPickUp implements IPlayerPickupItemEvent
@@ -22,13 +23,13 @@ public class PlayerItemPickUp implements IPlayerPickupItemEvent
 	public void OnPlayerPickupItemEvent(RunsafePlayerPickupItemEvent event)
 	{
 
-		RunsafePlayer player = event.getPlayer();
+		IPlayer player = event.getPlayer();
 		RunsafeItem item = event.getItem();
 		RunsafeMeta usingItem = item.getItemStack();
 
 		if (playerHandler.isIngame(player))
 		{
-			console.fine(String.format("%s picked up %d", player.getName(), item.getItemStack().getItemId()));
+			console.broadcastColoured(String.format("%s picked up %d", player.getName(), item.getItemStack().getItemId()));
 
 			boolean used = false;
 			if (usingItem.is(Item.Food.Golden.Apple))

@@ -1,8 +1,8 @@
 package nl.naxanria.headhunters.event;
 
 import no.runsafe.framework.api.event.player.IPlayerTeleportEvent;
+import no.runsafe.framework.api.player.IPlayer;
 import no.runsafe.framework.minecraft.event.player.RunsafePlayerTeleportEvent;
-import no.runsafe.framework.minecraft.player.RunsafePlayer;
 import nl.naxanria.headhunters.handler.AreaHandler;
 import nl.naxanria.headhunters.handler.PlayerHandler;
 
@@ -17,7 +17,7 @@ public class PlayerTeleport implements IPlayerTeleportEvent
 	@Override
 	public void OnPlayerTeleport(RunsafePlayerTeleportEvent event)
 	{
-		RunsafePlayer player = event.getPlayer();
+		IPlayer player = event.getPlayer();
 
 		if (playerHandler.isIngame(player))
 			if (!areaHandler.isInCurrentCombatRegion(event.getTo()))

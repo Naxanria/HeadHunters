@@ -1,6 +1,6 @@
 package nl.naxanria.headhunters.handler;
 
-import no.runsafe.framework.minecraft.player.RunsafePlayer;
+import no.runsafe.framework.api.player.IPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -22,15 +22,15 @@ public class ScoreboardHandler {
 
     }
 
-    public void addScoreboard(RunsafePlayer player)
+    public void addScoreboard(IPlayer player)
     {
-        Player rawPlayer = (Player) player.getRaw();
+        Player rawPlayer = (Player)player;
         rawPlayer.setScoreboard(scoreboard);
     }
 
-    public void removeScoreBoard(RunsafePlayer player)
+    public void removeScoreBoard(IPlayer player)
     {
-        Player rawPlayer = (Player) player.getRaw();
+        Player rawPlayer = (Player) player;
         scoreboard.resetScores(rawPlayer);
         rawPlayer.setScoreboard(emptyScoreboard);
     }
@@ -46,9 +46,9 @@ public class ScoreboardHandler {
 			objective.setDisplayName(ChatColor.AQUA + "Time left:" + ChatColor.WHITE + time + ChatColor.RED + " Heads");
 		}
 
-    public void updateScoreboard(RunsafePlayer player, int heads)
+    public void updateScoreboard(IPlayer player, int heads)
     {
-			Player rawPlayer = (Player) player.getRaw();
+			Player rawPlayer = (Player) player;
 			Score score = objective.getScore(rawPlayer);
 			score.setScore(heads);
     }

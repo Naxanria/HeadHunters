@@ -1,9 +1,10 @@
 package nl.naxanria.headhunters.event;
 
 import nl.naxanria.headhunters.handler.PlayerHandler;
+import no.runsafe.framework.api.ILocation;
 import no.runsafe.framework.api.event.player.IPlayerRespawn;
+import no.runsafe.framework.api.player.IPlayer;
 import no.runsafe.framework.minecraft.RunsafeLocation;
-import no.runsafe.framework.minecraft.player.RunsafePlayer;
 import nl.naxanria.headhunters.handler.AreaHandler;
 
 public class PlayerRespawn implements IPlayerRespawn
@@ -16,7 +17,7 @@ public class PlayerRespawn implements IPlayerRespawn
 	}
 
 	@Override
-	public RunsafeLocation OnPlayerRespawn(RunsafePlayer player, RunsafeLocation location, boolean isBed)
+	public RunsafeLocation OnPlayerRespawn(IPlayer player, ILocation location, boolean isBed)
 	{
 		if (playerHandler.isIngame(player))
 		{

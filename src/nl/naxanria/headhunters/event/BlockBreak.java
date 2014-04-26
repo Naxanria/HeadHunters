@@ -2,8 +2,8 @@ package nl.naxanria.headhunters.event;
 
 import nl.naxanria.headhunters.Core;
 import no.runsafe.framework.api.event.block.IBlockBreakEvent;
+import no.runsafe.framework.api.player.IPlayer;
 import no.runsafe.framework.minecraft.event.block.RunsafeBlockBreakEvent;
-import no.runsafe.framework.minecraft.player.RunsafePlayer;
 import nl.naxanria.headhunters.handler.AreaHandler;
 import nl.naxanria.headhunters.handler.PlayerHandler;
 
@@ -19,7 +19,7 @@ public class BlockBreak implements IBlockBreakEvent
 	@Override
 	public void OnBlockBreakEvent(RunsafeBlockBreakEvent event)
 	{
-		RunsafePlayer eventPlayer = event.getPlayer();
+		IPlayer eventPlayer = event.getPlayer();
 		if (eventPlayer.getWorld().getName().equalsIgnoreCase(playerHandler.getWorldName()))
 			if (areaHandler.isInCombatRegion(eventPlayer.getLocation()))
 				if (core.isEnabled() || !eventPlayer.hasPermission("headhunters.build"))

@@ -3,9 +3,9 @@ package nl.naxanria.headhunters.event;
 import nl.naxanria.headhunters.handler.AreaHandler;
 import nl.naxanria.headhunters.Core;
 import nl.naxanria.headhunters.handler.PlayerHandler;
+import no.runsafe.framework.api.block.IBlock;
 import no.runsafe.framework.api.event.block.IBlockPlace;
-import no.runsafe.framework.minecraft.block.RunsafeBlock;
-import no.runsafe.framework.minecraft.player.RunsafePlayer;
+import no.runsafe.framework.api.player.IPlayer;
 
 public class BlockPlace implements IBlockPlace
 {
@@ -17,7 +17,7 @@ public class BlockPlace implements IBlockPlace
 	}
 
 	@Override
-	public boolean OnBlockPlace(RunsafePlayer eventPlayer, RunsafeBlock block)
+	public boolean OnBlockPlace(IPlayer eventPlayer, IBlock block)
 	{
 
 		if (eventPlayer.getWorld().getName().equalsIgnoreCase(playerHandler.getWorldName()))
