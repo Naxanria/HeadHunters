@@ -21,6 +21,7 @@ public class CommandConfig extends ExecutableCommand
 		this.config = config;
 		this.core = core;
 	}
+
 	@Override
 	public String OnExecute(ICommandExecutor executor, IArgumentList parameters)
 	{

@@ -1,7 +1,7 @@
 package nl.naxanria.headhunters;
 
 import com.google.common.collect.Lists;
-import no.runsafe.framework.api.ILocation;
+
 import no.runsafe.framework.api.player.IPlayer;
 import no.runsafe.framework.minecraft.item.meta.RunsafeMeta;
 

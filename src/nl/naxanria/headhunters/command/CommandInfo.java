@@ -54,6 +54,7 @@ public class CommandInfo extends ExecutableCommand
 		}
 		return Constants.ERROR_COLOR + "Headhunters is disabled";
 	}
+
 	private final Core core;
 	private final PlayerHandler playerHandler;
 	private final AreaHandler areaHandler;

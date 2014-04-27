@@ -19,13 +19,15 @@ public class CommandSetEquipment extends PlayerCommand {
 	}
 
 	@Override
-	public String OnExecute(IPlayer executor, IArgumentList parameters) {
+	public String OnExecute(IPlayer executor, IArgumentList parameters)
+	{
 		if(core.isEnabled())
 			return Constants.MSG_COLOR + "Only use this command when headhunters is disabled!";
 		equipmentRepository.setEquipment(executor.getInventory());
 		equipmentHandler.update();
 		return Constants.MSG_COLOR + "Successfully set the standard equipment";
 	}
+
 	private final EquipmentRepository equipmentRepository;
 	private final EquipmentHandler equipmentHandler;
 	private final Core core;

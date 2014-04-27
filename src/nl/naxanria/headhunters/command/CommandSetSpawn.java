@@ -14,7 +14,8 @@ public class CommandSetSpawn extends PlayerCommand
 	}
 
 	@Override
-	public String OnExecute(IPlayer player, IArgumentList parameters) {
+	public String OnExecute(IPlayer player, IArgumentList parameters)
+	{
 		areaHandler.setWaitRoomSpawn(player.getLocation());
 		return "Successfully set spawn";
 	}

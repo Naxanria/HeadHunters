@@ -13,11 +13,11 @@ public class CommandJoin extends PlayerCommand
 		this.core = core;
 	}
 
-	private final Core core;
-
 	@Override
 	public String OnExecute(IPlayer executor, IArgumentList parameters)
 	{
 		return this.core.join(executor);
 	}
+
+	private final Core core;
 }

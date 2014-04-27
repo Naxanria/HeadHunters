@@ -21,7 +21,8 @@ public class CommandShowIngame extends PlayerCommand
 	}
 
 	@Override
-	public String OnExecute(IPlayer executor, IArgumentList parameters) {
+	public String OnExecute(IPlayer executor, IArgumentList parameters)
+	{
 		List<String> players = new ArrayList<String>();
 		for (IPlayer player : playerHandler.getIngamePlayers())
 			players.add(player.getPrettyName());

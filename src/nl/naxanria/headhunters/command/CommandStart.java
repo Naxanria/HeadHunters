@@ -15,7 +15,8 @@ public class CommandStart extends PlayerCommand
 	}
 
 	@Override
-	public String OnExecute(IPlayer executor, IArgumentList parameters) {
+	public String OnExecute(IPlayer executor, IArgumentList parameters)
+	{
 		int time = (parameters.get("time") != null) ? Integer.valueOf(parameters.get("time")) : 0;
 
 		return core.startInTime(time);

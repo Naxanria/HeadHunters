@@ -41,11 +41,10 @@ public class CommandTeleport extends PlayerCommand
 		return "<map> &aAvailable maps: &f" + areaHandler.getAvailableRegions() + "\n";
 	}
 
-	private final PlayerHandler playerHandler;
-	private final AreaHandler areaHandler;
 
 	@Override
-	public String OnExecute(IPlayer executor, IArgumentList parameters) {
+	public String OnExecute(IPlayer executor, IArgumentList parameters)
+	{
 		if (playerHandler.isIngame(executor))
 		{
 			return Constants.ERROR_COLOR + "You can not use this command while in game!";
@@ -59,4 +58,7 @@ public class CommandTeleport extends PlayerCommand
 		executor.setGameMode(GameMode.CREATIVE);
 		return null;
 	}
+
+	private final PlayerHandler playerHandler;
+	private final AreaHandler areaHandler;
 }

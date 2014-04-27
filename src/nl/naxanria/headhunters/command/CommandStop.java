@@ -14,7 +14,8 @@ public class CommandStop extends PlayerCommand
 	}
 
 	@Override
-	public String OnExecute(IPlayer executor, IArgumentList parameters) {
+	public String OnExecute(IPlayer executor, IArgumentList parameters)
+	{
 		this.core.stop(executor);
 		return null;
 	}

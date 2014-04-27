@@ -27,6 +27,7 @@ public class CommandVote extends PlayerCommand
 
 		return voteHandler.vote(executor);
 	}
+
 	private final AreaHandler areaHandler;
 	private final VoteHandler voteHandler;
 	private final Core core;

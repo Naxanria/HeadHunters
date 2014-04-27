@@ -26,7 +26,8 @@ public class CommandSetWaitroom extends PlayerCommand
 	}
 
 	@Override
-	public String OnExecute(IPlayer executor, IArgumentList parameters) {
+	public String OnExecute(IPlayer executor, IArgumentList parameters)
+	{
 		ArrayList<String> areas = areaRepository.getAreas();
 		List<String> region = worldGuardInterface.getRegionsAtLocation(executor.getLocation());
 		if (region.size() == 0)

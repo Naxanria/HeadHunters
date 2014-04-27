@@ -21,7 +21,8 @@ public class CommandDisable extends ExecutableCommand
 	public String OnExecute(ICommandExecutor executor, IArgumentList parameters)
 	{
 		this.core.disable();
-		return "Headhunters " + ChatColour.RED + "disabled";	}
+		return "Headhunters " + ChatColour.RED + "disabled";
+	}
 
 	private final Core core;
 

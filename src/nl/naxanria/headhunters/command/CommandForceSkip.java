@@ -25,15 +25,6 @@ public class CommandForceSkip extends PlayerCommand
 		this.voteHandler = voteHandler;
 	}
 
-
-	public List<String> getParameterOptions(String parameter)
-	{
-		ArrayList<String> parameterOptions = new ArrayList<String>();
-		parameterOptions.addAll(areaHandler.getAvailableRegionsAsList());
-		parameterOptions.add("random");
-		return parameterOptions;
-	}
-
 	@Nonnull
 	@Override
 	public List<IArgument> getParameters()

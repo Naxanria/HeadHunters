@@ -8,6 +8,10 @@ import nl.naxanria.headhunters.event.*;
 import nl.naxanria.headhunters.handler.*;
 import no.runsafe.framework.RunsafeConfigurablePlugin;
 import no.runsafe.framework.api.command.Command;
+import no.runsafe.framework.features.Commands;
+import no.runsafe.framework.features.Database;
+import no.runsafe.framework.features.Events;
+import no.runsafe.framework.features.FrameworkHooks;
 import no.runsafe.worldguardbridge.WorldGuardInterface;
 
 public class Plugin extends RunsafeConfigurablePlugin
@@ -15,8 +19,15 @@ public class Plugin extends RunsafeConfigurablePlugin
 	@Override
 	protected void pluginSetup()
 	{
+
+		//framework features
+		addComponent(Commands.class);
+		addComponent(Database.class);
+		addComponent(Events.class);
+		addComponent(FrameworkHooks.class);
+
 		//worldguard interface
-		this.addComponent(getFirstPluginAPI(WorldGuardInterface.class));
+		this.addComponent(getPluginAPI(WorldGuardInterface.class));
 
 		//database
 		this.addComponent(AreaRepository.class);
@@ -36,6 +47,7 @@ public class Plugin extends RunsafeConfigurablePlugin
 
 		// commands
 		Command command = new Command("headhunters", "Headhunters plugin commands", null);
+		this.addComponent(command);
 
 		command.addSubCommand(this.getInstance(CommandDisable.class));
 		command.addSubCommand(this.getInstance(CommandEnable.class));
@@ -54,7 +66,7 @@ public class Plugin extends RunsafeConfigurablePlugin
 		command.addSubCommand(this.getInstance(CommandSetWaitroom.class));
 		command.addSubCommand(this.getInstance(CommandSetEquipment.class));
 
-		this.addComponent(command);
+
 
 		//events
 		this.addComponent(PlayerDeath.class);

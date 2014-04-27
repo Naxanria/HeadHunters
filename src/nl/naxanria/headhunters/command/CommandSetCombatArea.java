@@ -53,7 +53,8 @@ public class CommandSetCombatArea extends PlayerCommand
 	}
 
 	@Override
-	public String OnExecute(IPlayer player, IArgumentList parameters) {
+	public String OnExecute(IPlayer player, IArgumentList parameters)
+	{
 		boolean add;
 
 		String arg = parameters.get("p");
@@ -111,6 +112,7 @@ public class CommandSetCombatArea extends PlayerCommand
 			return Constants.ERROR_COLOR + "Please move to the correct world";
 		}
 	}
+
 	private final Core core;
 	private final WorldGuardInterface worldGuardInterface;
 	private final AreaHandler areaHandler;
